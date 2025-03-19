@@ -1,0 +1,263 @@
+/* ******************* */
+/* Hero Section       */
+/* ******************* */
+.section-hero {
+  background-color: var(--color-primary-dark);
+  color: #fff;
+  padding: 4.8rem 0 9.6rem 0;
+}
+
+.hero {
+  max-width: 130rem;
+  height: 77vh;
+  margin: 0 auto;
+  padding: 0 3.2rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 9.6rem;
+}
+
+.hero-description {
+  font-size: 2rem;
+  line-height: 1.6;
+  margin-bottom: 4.8rem;
+}
+
+.hero-img {
+  width: 100%;
+}
+
+/* ******************* */
+/* WALK THROUGH Section */
+/* ******************* */
+.walkthrough-box {
+  background-color: var(--color-tertiary);
+  padding: 6rem;
+}
+
+.gallery-item {
+  overflow: hidden;
+  padding-bottom: 2rem;
+}
+
+.gallery-item img {
+  width: 100%;
+  transition: all 0.4s;
+}
+
+figcaption {
+  font-size: 2rem;
+  color: var(--color-accent-grey);
+  padding: 2rem;
+}
+
+.gallery-item img:hover {
+  transform: scale(1.1);
+}
+
+/* ******************* */
+/* PLAYBOOK BOX Section */
+/* ******************* */
+.playbook-box {
+  color: var(--color-primary-dark);
+  position: relative;
+  padding: 15rem 0;
+}
+
+.header-box-playbook {
+  color: var(--color-primary-dark);
+  font-size: 4.4rem;
+  line-height: 1.2;
+  margin-bottom: 4rem;
+  font-weight: 700;
+  letter-spacing: -0.5px;
+}
+
+.subheading-box-playbook {
+  display: block;
+  font-size: 1.6rem;
+  font-weight: 600;
+  color: var(--color-accent-white);
+  text-transform: uppercase;
+  letter-spacing: 0.75px;
+  margin-bottom: 2rem;
+}
+
+.playbook-title {
+  font-size: 2.4rem;
+  background-color: #fff;
+  color: var(--color-primary-dark);
+  font-weight: 700;
+  margin: 0 auto;
+  box-shadow: 0 3rem 6rem rgba(0, 0, 0, 0.1);
+  padding: 4rem;
+}
+
+.playbook-text {
+  font-size: 1.6rem;
+  line-height: 1.5;
+  margin: 3rem;
+}
+
+.bg-video {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  z-index: -1;
+  opacity: 0.60;
+  overflow: hidden;
+}
+
+.bg-video::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: var(--color-secondary);
+  mix-blend-mode: color;
+  pointer-events: none;
+}
+
+.bg-video__content {
+  height: 100%;
+  width: 100%;
+  object-fit: cover;
+}
+
+/* ******************* */
+/* WIDGEON BOX Section */
+/* ******************* */
+.widgeon-box {
+  background-color: var(--color-primary-dark);
+  padding: 6rem 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.header-secondary {
+  color: var(--color-accent-white);
+  font-size: 4.4rem;
+  line-height: 1.2;
+  margin-bottom: 5rem;
+  font-weight: 700;
+  letter-spacing: -0.5px;
+}
+
+.box {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  transition: all 0.4s;
+}
+
+.box:hover {
+  transform: translateY(-1.2rem);
+  box-shadow: 0 3.2rem 6.4rem rgba(0, 0, 0, 0.06);
+}
+
+.box-content {
+  padding: 3.2rem 4.8rem;
+}
+
+.box-title {
+  font-size: 2rem;
+  color: var(--color-accent-white);
+  font-weight: 600;
+  margin-bottom: 3.2rem;
+}
+
+.box-info {
+  padding: 3.2rem 4.8rem;
+}
+
+.box-attributes {
+  color: var(--color-accent-white);
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.box-attribute {
+  font-size: 1.8rem;
+  display: flex;
+  align-items: center;
+  gap: 1.6rem;
+}
+
+.box-icon {
+  height: 2.4rem;
+  width: 3.4rem;
+  color: var(--color-secondary);
+}
+
+.button a {
+  display: inline-block;
+  text-align: center;
+}
+
+/* ******************** */
+/* WALKTHROUGH PAGE     */
+/* ******************** */
+#walkthrough-container {
+  background-color: var(--color-primary);
+  min-height: 85vh;
+  padding: 2rem;
+}
+
+#walkthrough-heading {
+  color: #fff;
+  text-transform: capitalize;
+}
+
+.card:hover {
+  transform: scale(1.1);
+  background-color: var(--color-primary-dark);
+}
+
+#difficultyFilter,
+#statusFilter {
+  margin: 0.5rem;
+  font-size: 2rem;
+  font-weight: 600;
+  padding: 1rem 1rem;
+  border-radius: 9px;
+  text-decoration: none;
+  transition: all 0.3s;
+  border: none;
+  cursor: pointer;
+  font-family: inherit;
+}
+
+.card {
+  padding: 0.6rem;
+  width: 100%;
+  text-align: center;
+  transition: all 0.4s;
+  color: var(--color-accent-grey);
+  cursor: pointer;
+}
+
+.card h2 {
+  font-size: 2rem;
+  padding-bottom: 0.7rem;
+}
+
+.card p {
+  font-size: 1.6rem;
+}
+
+.card a {
+  color: var(--color-accent-grey);
+  text-decoration: none;
+}
+
+.hidden {
+  display: none;
+}
