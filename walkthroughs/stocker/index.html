@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Stocker</title>
+  <link rel="icon" href="logo/widgeons-way-website-favicon-color.png">
+    <link rel="icon" href="logo/widgeons-way-website-favicon-color.png" sizes="">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css" integrity="sha384-DyZ88mC6Up2uqS4h/KRgHuoeGwBcD4Ng9SiP4dIRy0EXTlnuz47vAwmeGwVChigm" crossorigin="anonymous"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+
+    <link rel="icon" href="img/widgeonswaylogo.png" />
+   
+    <link href="/css/general.css" rel="stylesheet">  
+     <link href="/css/queries.css" rel="stylesheet"> 
+     <link href="/css/walkthroughs.css" rel="stylesheet"> 
+ 
+    
+    <script src="https://code.iconify.design/iconify-icon/1.0.5/iconify-icon.min.js"></script>
+</head>
+<body>
+    <header class="header ">
+      <a href="/">
+        <img class="logo" alt="Widgeon's Way Logo" src="/img/widgeonswaylogo.png"/>
+      </a>
+
+      <nav class="main-nav " id="menulinks">
+        <ul class="main-nav-list">
+          <li><a class="main-nav-link" href="/">Home</a></li>
+          <li><a class="main-nav-link" href="/toolkit/">Toolkit</a></li>
+          <li>
+            <a class="main-nav-link" href="/playbook/">Play Book</a>
+          </li>
+          <li><a class="main-nav-link" href="/walkthroughs/">Walk-Throughs</a></li>
+          <li><a class="main-nav-link" href="/widgeon-ctf/">Widgeon CTF</a></li>
+          <li><a class="main-nav-link nav-cta" href="/about/">About</a></li>
+        </ul>
+      </nav>
+      <button class="btn-mobile-nav">
+        <i class="icon-mobile-nav fa-solid fa-bars"></i>
+        <i class="icon-mobile-nav fa-solid fa-x"></i>
+        
+      
+      </button>
+    </header>
+        <main class="container"id="walkthrough">    
+            <div class="content">
+                <p class="walkthrough-date">January 29, 2023</p>
+                
+                        <h1 class="header-primary-walkthrough">Stocker</h1>
+                     
+        
+                        <h3 class="header-tertiary-walkthrough center-text">Tools Needed: Nmap, Gobuster, Burp Suite and NoSQL.</h3>
+                       
+         
+            
+            <img class="walkthrough-img" id="small" src="./img/Stocker.png" alt="Stocker Cover Photo">
+       
+          
+                <h2 class="header-secondary-walkthrough">Step 1: Start off with an Nmap Scan</h2>       
+               
+             
+                <p class="walkthrough-copy"><button class="copy-btn" onclick="copyToClipboard(this)"><i class="fa-solid fa-copy"></i></button><code>nmap -sV -sC &lt;IP ADDRESS&gt; -oA &lt;FILE NAME&gt;</code></p>
+                <p class="description">Start off with an nmap scan:</p>
+
+<img class="walkthrough-img" src="./img/Picture1.png" alt="Nmap scan">
+
+<p class="description">In the Nmap scan we found that port 80 is open. This means that there is a website. When going to http://stocker.htb we are shown this website as the home page. We can start clicking around for anything interesting while we set up more scans to further enumerate the host.</p>
+<img class="walkthrough-img" src="./img/Picture2.png" alt="stocker.htb homepage">
+
+<p class="description">When a CTF challenge has a website, I immediately think “gobuster and burp suite.”</p>
+<p class="description">Gobuster is a great tool to enumerate a website. It allows us to scan for potential directories, such as www.&lt;WEBSITE&gt;.com/dev as well as vhosts on the host such as dev.&lt;WEBSITE&gt;.com</p>
+<p class="description">This will scan for any directories that come after the main website:</p>
+<p class="walkthrough-copy"><button class="copy-btn" onclick="copyToClipboard(this)"><i class="fa-solid fa-copy"></i></button><code>gobuster dir -u http://stocker.htb/ -w /usr/share/wordlists/dirbuster/directory-list-2.3-medium.txt</code></p>
+<img class="walkthrough-img" src="./img/Picture3.png" alt="gobuster scan">
+<p class="description">This will scan for any vhosts:</p>
+<p class="walkthrough-copy"><button class="copy-btn" onclick="copyToClipboard(this)"><i class="fa-solid fa-copy"></i></button><code></code>gobuster vhost -u http://stocker.htb/ -w /usr/share/seclists/Discovery/DNS/subdomains-top1million-5000.txt –append-domain</code></p>
+<img class="walkthrough-img" src="./img/Picture4.png" alt="gobuster scan">
+
+<p class="description">The gobuster scan returned a single result of dev.stocker.htb. Do not forget to add that to the /etc/hosts file and then go visit the site. You will be prompted with a login page.</p>
+<img class="walkthrough-img" src="./img/Picture5.png" alt="stocker login page">
+
+<p class="description">First thing to do when you see any login prompt is to try default credentials. Admin/admin is a very simple test. You can also look for any information such as what the website was made on and then you can Google that service’s default credentials and try those out.</p>
+<p class="description">Even if they do not work, you may get some useful error messages such as “Wrong password for this user” or “This user does not exist.” This may give out some hints on what to do next.</p>
+
+<p class="description">In this case, very little information was given out. I did not see a version or any technologies that this site may be running off.</p>
+<p class="description">So, we can open up Burp Suite and go to the website to capture the request.</p>
+
+<p class="description">With so little information, I decided to try something simple and go for a password spray at the login. I sent the login request to Intruder to load up a wordlist to help with the process.</p>
+<img class="walkthrough-img" src="./img/Picture6.png" alt="Burp Suite login request">
+<img class="walkthrough-img" src="./img/Picture7.png" alt="Burp Suite Clear">
+
+<p class="description">Add a payload (your wordlist) and click start attack.</p>
+<img class="walkthrough-img" src="./img/Picture8.png" alt="Burp Suite Start Attack">
+
+<p class="description">This ended up giving us nothing, so time to try something else.</p>
+<p class="description">Trying to figure out what to do next, I went to https://github.com/swisskyrepo/PayloadsAllTheThings to see if there was anything interesting that I could use on this login.</p>
+<p class="description">I tried looking at a few of the "INJECTION" links and tried them all to see if anything would work.</p>
+<img class="walkthrough-img" src="./img/Picture9.png" alt="swisskyrepo github page">
+
+<p class="description">After some failed attempts, we got to the NoSQL injection bypass.</p>
+<img class="walkthrough-img" src="./img/Picture10.png" alt="NoSQL injection bypass">
+
+<p class="description">For this to work, we have to change the “Content-Type” of our request to JSON, which was previously URL-encoded.</p>
+<p class="description">Here is the working authentication bypass:</p>
+<p class="description">Notice the changed type on line 7, as well as the actual exploit on lines 17+.</p>
+<img class="walkthrough-img" src="./img/Picture11.png" alt="Burp Suite">
+
+<p class="description">Send to repeater, replace the content-type with application/json.</p>
+
+
+
+<p class="description">Replace the username/password with the following:</p>
+<p class="walkthrough-copy"><button class="copy-btn" onclick="copyToClipboard(this)"><i class="fa-solid fa-copy"></i></button><code></code>{<br>"username": {"$ne": null},<br> "password": {"$ne": null}<br>}</code></p>
+
+<p class="description">Send again. There is no error. Click show response in browser and a link will pop up for you to copy. Paste it in the browser and you are authenticated. Now we can start looking around the website.</p>
+<img class="walkthrough-img" src="./img/Picture12.png" alt="Stocker.htb website">
+
+<p class="description">Most of the links are useless and go nowhere, but there is an order form that we can create (View Cart). We can capture the request through Burp Suite again to look at it.</p>
+
+<p class="description">There’s some action going on with the server side which produces a PDF. The content we send to it through Burp Suite gets passed no problem, so we can start adding in XSS. Doing some testing, we can start reading some files that are hosted on the computer with iframes.</p>
+<img class="walkthrough-img" src="./img/Picture13.png" alt="Burp Suite">
+
+<p class="description">We can use this to read files like /etc/password to get some information.</p>
+<img class="walkthrough-img" src="./img/Picture14.png" alt="/etc/password">
+
+<p class="description">Looks like we found a user angoose, this may be helpful to use later, but this is not giving us anything immediately to get access.</p>
+<img class="walkthrough-img" src="./img/Picture15.png" alt="Burp Suite">
+
+<p class="description">Not much we can find, but if we read index.js from the current directory, we get some extremely useful information.</p>
+<img class="walkthrough-img" src="./img/Picture16.png" alt="Burp Suite">
+
+<p class="description">A password is shown, and we can now try to use those credentials, and we remember from our nmap scan that port 22 (SSH) is open, we can try those to get us in.</p>
+<img class="walkthrough-img" src="./img/Picture17.png" alt="Password is shown">
+
+<p class="description">Use our found credentials and we are in.</p>
+<img class="walkthrough-img" src="./img/Picture18.png" alt="Ssh in as angoose">
+
+<p class="description">Type ls to see what we have and there is user.txt! Cat it and we have the user flag.</p>
+<img class="walkthrough-img" src="./img/Picture19.png" alt="user flag">
+
+<p class="description">Now let’s run sudo -l to see what we can run as root. This should be our go to when trying to get from user to root. </p>
+<img class="walkthrough-img" src="./img/Picture25.png" alt="user flag">
+
+<p class="description">We can use node, but only if it is a *.js from the usr/local/scripts/ directory.</p>
+
+<p class="description">This is a huge error to make, as anything following the * and ending in js will be a valid path. This means we should be able to execute commands as sudo if we are able to create a .js file in ANY directory. 
+    As I am rather unfamiliar with node.js, I needed to search a way to execute a command with it.
+    </p>
+
+<p class="description"><a href="https://stackabuse.com/executing-shell-commands-with-node-js/">https://stackabuse.com/executing-shell-commands-with-node-js/ </a></p>
+
+<p class="description">We can create files in “/home/angoose” so we can create the following file to grab our root flag (or execute any other command we would want)</p>
+<img class="walkthrough-img" src="./img/Picture26.png" alt="Create file">
+
+<p class="description">Run the command:</p>
+<p class="walkthrough-copy"><button class="copy-btn" onclick="copyToClipboard(this)"><i class="fa-solid fa-copy"></i></button><code></code> sudo /usr/bin/mode /usr/local/scripts/../../../home/angoose/file.js</code></p>
+<p class="description"> The script will execute and root.txt will be read!</p>
+<img class="walkthrough-img" src="./img/Picture27.png" alt="Run file and root flag">
+
+<p class="description">Success! Stocker has been pwned 😎</p>
+<img class="walkthrough-img" src="./img/Picture23.png" alt="Stocker has been pwned">
+
+            
+        </div>        
+
+           
+      
+            
+      
+    
+
+  
+</main>
+  <!------------------- Footer ------------------->
+  <footer class="footer center-text" >
+    <div class="center-text grid grid--3-cols">
+      
+        <div class="footer__navigation">
+          <ul class="footer__list">
+            <li class="footer__item"><a href="https://github.com/widgeonsway" class="footer__link"><i class="fab fa-github"></a></i></li>
+            <li class="footer__item"><a href="https://tryhackme.com/p/widgeon" class="footer__link"><iconify-icon icon="simple-icons:tryhackme"></a></iconify-icon></li>
+            <li class="footer__item"><a href="https://app.hackthebox.com/users/1201996" class="footer__link"><iconify-icon icon="simple-icons:hackthebox"></a></iconify-icon>
+            <li class="footer__item"><a href="https://www.linkedin.com/in/stormypleym/" class="footer__link"><i class="fa-brands fa-linkedin"></i>
+            <li class="footer__item"><a href="mailto:stormy.pleym@gmail.com" class="footer__link"><i class="fa-solid fa-envelope"></a></i></li>
+          </ul>
+        </div>
+      <div class="footer__logo-box ">
+       <span>Widgeon's Way</span>
+        <p class="center-text">Thank you</p>
+        <p class="center-text">Made by <img class="duck" src="/img/widgeonswaylogo.png" width="18" height="18"><a href="about.html"> Widgeon</a></p>
+      </div>
+      
+      <div class="copyright">
+        Copyright &copy; <span class="year">2027 </span> Widgeon's Way
+       
+      </div>
+      
+    </div>
+   
+    
+    </footer>
+
+    <script src="https://code.iconify.design/iconify-icon/1.0.5/iconify-icon.min.js"></script>
+    <script src="/scripts/script.js"></script>
+    <script>
+        function copyToClipboard(button) {
+            const text = button.parentElement.textContent.trim();
+            navigator.clipboard.writeText(text).then(() => {
+                button.innerHTML = '<i class="fa-solid fa-check"></i>'; 
+                setTimeout(() => button.innerHTML = '<i class="fa-solid fa-copy"></i>', 2000); 
+            }).catch(err => console.error('Error copying text:', err));
+        }
+        </script>
+ 
+  </body>
+
+    
+ 
+</body>
+</html>
+
