@@ -191,6 +191,9 @@ strong {
   margin: 0 auto;
 }
 
+#medium {
+  width: 65%;
+}
 /*********************/
 /* BELOW 944 px*/
 /*********************/
@@ -199,16 +202,14 @@ strong {
     margin: 0.5rem;
   }
 
-  #small {
+  #small,
+  #medium {
     width: 100%;
   }
 
   .content {
-    flex: 1;
-    background-color: var(--color-accent-white);
-    padding: 2rem;
-    border-radius: 8px;
-    box-shadow: 0 8px 24px var(--color-primary-dark);
-    margin: 1rem;
+    padding: 1.5rem;
+
+    margin: 1.5rem;
   }
 }
