@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cerberus</title>
+  <link rel="icon" href="logo/widgeons-way-website-favicon-color.png">
+    <link rel="icon" href="logo/widgeons-way-website-favicon-color.png" sizes="">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css" integrity="sha384-DyZ88mC6Up2uqS4h/KRgHuoeGwBcD4Ng9SiP4dIRy0EXTlnuz47vAwmeGwVChigm" crossorigin="anonymous"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+
+    <link rel="icon" href="img/widgeonswaylogo.png" />
+   
+    <link href="/css/general.css" rel="stylesheet">  
+     <link href="/css/queries.css" rel="stylesheet"> 
+     <link href="/css/walkthroughs.css" rel="stylesheet"> 
+ 
+    
+    <script src="https://code.iconify.design/iconify-icon/1.0.5/iconify-icon.min.js"></script>
+</head>
+<body>
+    <header class="header ">
+      <a href="/">
+        <img class="logo" alt="Widgeon's Way Logo" src="/img/widgeonswaylogo.png"/>
+      </a>
+
+      <nav class="main-nav " id="menulinks">
+        <ul class="main-nav-list">
+          <li><a class="main-nav-link" href="/">Home</a></li>
+          <li><a class="main-nav-link" href="/toolkit/">Toolkit</a></li>
+          <li>
+            <a class="main-nav-link" href="/playbook/">Play Book</a>
+          </li>
+          <li><a class="main-nav-link" href="/walkthroughs/">Walk-Throughs</a></li>
+          <li><a class="main-nav-link" href="/widgeon-ctf/">Widgeon CTF</a></li>
+          <li><a class="main-nav-link nav-cta" href="/about/">About</a></li>
+        </ul>
+      </nav>
+      <button class="btn-mobile-nav">
+        <i class="icon-mobile-nav fa-solid fa-bars"></i>
+        <i class="icon-mobile-nav fa-solid fa-x"></i>
+        
+      
+      </button>
+    </header>
+        <main class="container"id="walkthrough">    
+            <div class="content">
+                <p class="walkthrough-date">March 29, 2023</p>
+                
+                        <h1 class="header-primary-walkthrough">Cerberus</h1>
+                     
+        
+                        <h3 class="header-tertiary-walkthrough center-text">Tools Needed: Chisel, Evil-WinRM, Proxychains, Metasploit, FFUF, Burp Suite, LinPEAS, WinPEAS, and  Foxy Proxy</h3>
+                        
+         
+            
+            <img class="walkthrough-img" id="small" src="./img/Cerberus.png" alt="Cerberus Cover Photo">
+       
+          
+            <h2 class="header-secondary-walkthrough">Step 1: Start off with an Nmap Scan</h2>       
+               
+             
+            <p class="walkthrough-copy"><button class="copy-btn" onclick="copyToClipboard(this)"><i class="fa-solid fa-copy"></i></button><code>nmap -sV -sC &lt;IP ADDRESS&gt; -oA &lt;FILE NAME&gt;</code></p>
+            <p class="description">Nmap shows us only one port is open, it’s an HTTP server on port 8080.</p>
+                <img class="walkthrough-img" src="./img/Picture1.png" alt="Nmap Scan ">
+                
+              
+                <p class="description">We can add the host given in the nmap scan to our /etc / hosts</p>
+
+                <img class="walkthrough-img" src="./img/Picture2.png" alt="/etc/hosts">
+                
+                
+                <img class="walkthrough-img" src="./img/Picture3.png" alt="">
+                
+                <p class="description">Going to the webpage will give us an authentication page but no way to register. There must be some other way to gain access. </p>
+                <img class="walkthrough-img" src="./img/Picture4.png" alt="Cerberus.local">
+                
+                <p class="description">Try any default credentials , but there’s not much. Putting this through burp suite to see if there’s anything we can interact with</p>
+                <img class="walkthrough-img" src="./img/Picture5.png" alt="Burp Suite">
+                
+                
+                <img class="walkthrough-img" src="./img/Picture6.png" alt="Burp Suite">
+                
+                <p class="description">There is not a lot to see.</p>
+                <p class="description">Going to do some research on incigaweb2.</p>
+                <p class="description">You can see they have some security advisories on their github, this might be useful for us.</p>
+                <img class="walkthrough-img" src="./img/Picture7.png" alt="icinggaweb2 github page">
+                <p class="walkthrough-copy"><button class="copy-btn" onclick="copyToClipboard(this)"><i class="fa-solid fa-copy"></i></button><code>
+                    <a href="
+                    https://github.com/Icinga/icingaweb2/issues/4226
+                    ">
+                    https://github.com/Icinga/icingaweb2/issues/4226
+                    </a>
+                    </code></p>
+
+                <p class="description">After some more research, this interesting article came up for icingaweb. This has a lot of very useful information, but it’s displayed in a way that you can’t just easily replicate it.</p>
+                <p class="walkthrough-copy"><button class="copy-btn" onclick="copyToClipboard(this)"><i class="fa-solid fa-copy"></i></button><code>
+                    <a href="
+                    https://www.sonarsource.com/blog/path-traversal-vulnerabilities-in-icinga-web/
+                    ">
+                    https://www.sonarsource.com/blog/path-traversal-vulnerabilities-in-icinga-web/
+                    </a>
+                    </code></p>
+                <img class="walkthrough-img" src="./img/Picture8.png" alt="Icingaweb information">
+                <p class="description">You can see the path here in the demo at /demo /lib / icinga / icinga-php-thirdparty / etc /hosts
+                    if you append from the /lib into our webpage, we are able to replicate this LFI. 
+                    </p>
+                    <p class="description">We are able to read /etc/ hosts and get some usernames. </p>
+                <img class="walkthrough-img" src="./img/Picture9.png" alt="Cerberus /etc/hosts showing usernames">
+                
+                <p class="description">This looks like the user</p>
+                <img class="walkthrough-img" src="./img/Picture10.png" alt="Revealed matthew as a user">
+                
+                <p class="description">And maybe some potential services running on this machine.</p>
+                <img class="walkthrough-img" src="./img/Picture11.png" alt="showing potential services">
+                
+                <p class="description">Let’s fuzz for more files that we could potentially use with ffuf.</p>
+                <p class="walkthrough-copy"><button class="copy-btn" onclick="copyToClipboard(this)"><i class="fa-solid fa-copy"></i></button><code>ffuf -w /usr/share/wordlists/seclists/Fuzzing/LFI/LFI-Jhaddix.txt -u </code></p>
+                <p class="walkthrough-copy"><button class="copy-btn" onclick="copyToClipboard(this)"><i class="fa-solid fa-copy"></i></button><code>
+                    <a href="
+                    http://icinga.cerberus.local:8080/icingaweb2/lib/icinga/icinga-php-thirdparty/FUZZ
+                    ">
+                    http://icinga.cerberus.local:8080/icingaweb2/lib/icinga/icinga-php-thirdparty/FUZZ
+                    </a>
+                    </code></p>
+                <img class="walkthrough-img" src="./img/Picture12.png" alt="FFUF Results">
+                <img class="walkthrough-img" src="./img/Picture13.png" alt="FFUF Results- Services">
+                <p class="description">Read through all the files to look for anything. </p>
+                
+                
+                <p class="description">In /etc/hosts we can find the DC (domain controller) at 172.16.22.1</p>
+                <p class="description">This isn’t useful for us now because we have no route there, but it will likely be useful later.</p>
+                <img class="walkthrough-img" src="./img/Picture14.png" alt="/etc/hosts DC">
+                
+                <p class="description">Because we couldn’t find anything with an automatic scan we need to try to find files specific to icinga. Reading through the documentation we can find authentication methods are configured at /etc/icingaweb2/authentication.ini and requires the file resources.ini so using the LFI we can read this file.   </p>
+                <p class="walkthrough-copy"><button class="copy-btn" onclick="copyToClipboard(this)"><i class="fa-solid fa-copy"></i></button><code>
+                    <a href="
+                    https://icinga.com/docs/icinga-web/latest/doc/05-Authentication/
+                    ">
+                    https://icinga.com/docs/icinga-web/latest/doc/05-Authentication/
+                    </a>
+                    </code></p>
+                <img class="walkthrough-img" src="./img/Picture15.png" alt="LDAP">
+                
+                <p class="description">Now that we know where icingaweb2 stores its credentials, let’s try to see if we can find that file!</p>
+                <img class="walkthrough-img" src="./img/Picture16.png" alt="Reading the file to see the password">
+                
+                <p class="description">Password in plaintext, makes me think it will be a web gui password :) Just a hunch</p>
+                <img class="walkthrough-img" src="./img/Picture17.png" alt="Logging in with Matthews credentials">
+                
+                <p class="description">After doing some searching around the webui we don’t see too much useful right away. But if we go read the article again we can find out some more useful information.</p>
+                <p class="walkthrough-copy"><button class="copy-btn" onclick="copyToClipboard(this)"><i class="fa-solid fa-copy"></i></button><code>
+                    <a href="
+                    https://www.sonarsource.com/blog/path-traversal-vulnerabilities-in-icinga-web/
+                    ">
+                    https://www.sonarsource.com/blog/path-traversal-vulnerabilities-in-icinga-web/
+                    </a>
+                    </code></p>
+                <img class="walkthrough-img" src="./img/Picture18.png" alt="Screenshot of sonarsource article- set global_module_path to /dev/">
+                
+                <p class="description">We’re able to modify the modules we have loaded, by default they are in /usr/share/icingaweb2/modules but since we are logged in as an administrator, we can change the path. The article says let’s change it to /dev/ .</p>
+                <p class="description">Before changes:</p>
+                <img class="walkthrough-img" src="./img/Picture19.png" alt="Incinga before changes">
+                <p class="description">Configuration → Application</p>
+                <img class="walkthrough-img" src="./img/Picture20.png" alt="Configuration → Application">
+                
+                <p class="description">Modify the Module path</p>
+                <img class="walkthrough-img" src="./img/Picture21.png" alt="Modify the Module path">
+                
+                <p class="description">Now go back to the modules under configuration and we’ll see we have a lot more options.</p>
+                <img class="walkthrough-img" src="./img/Picture22.png" alt="modules">
+                <p class="description">Enable the shm module.</p>
+                <img class="walkthrough-img" src="./img/Picture23.png" alt="Enable the shm module.">
+                
+                <p class="description">Going back to the article we can find a way to execute some code. It requires a few things to get this to work, so we can start by generating a PEM file. </p>
+                <img class="walkthrough-img" src="./img/Picture24.png" alt="Generated PEM file">
+               
+                
+                <p class="description">Use ssh-keygen to generate yourself a pem file. </p>
+
+                <img class="walkthrough-img" src="./img/Picture25.png" alt="ssh-keygen ">
+                
+                <p class="description">Next upload this file as a SSH identity on the page.</p>
+                <p class="description">We go to Configuration → Application → Resources → Create a new resource  Change resource type to SSH Identity.</p>
+                <img class="walkthrough-img" src="./img/Picture26.png" alt="Navigating to change resource type to SSH identity">
+                <p class="description">Put the private key just generated in the Private Key Box and save changes while you have intercept on</p>
+                <img class="walkthrough-img" src="./img/Picture27.png" alt="Burp Suite Intercept on">
+                <p class="description">If you look at the article, it tells you what path the key gets uploaded to. </p>
+                <img class="walkthrough-img" src="./img/Picture28.png" alt="cerberus.local path with the key">
+                <img class="walkthrough-img" src="./img/Picture29.png" alt="application/forms/Config/resource/SshResourceForm.php">
+                
+                <p class="description">The path is hidden in this code snippet, but it is there. </p>
+                <p class="description">Next try to upload it again but this time you’ll need to send it a php payload. </p>
+                <img class="walkthrough-img" src="./img/Picture30.png" alt="Burp Suite">
+                <p class="description">Once the payload is up, you’ll need to send it a reverse shell.</p>
+                <p class="description">This process is long and you need to run this exploit many times over the course of this box, especially if you are trying to do this without a walkthrough ;) </p>
+                <p class="description">The creators of the box also made this reset on a 5 minute timer, so it’s best to automate the process.</p>
+                <p class="description">Luckily, someone had already automated the exploit for us:</p>
+                <p class="walkthrough-copy"><button class="copy-btn" onclick="copyToClipboard(this)"><i class="fa-solid fa-copy"></i></button><code>
+                    <a href="
+                    https://github.com/JacobEbben/CVE-2022-24715/blob/main/exploit.py
+                    ">
+                    https://github.com/JacobEbben/CVE-2022-24715/blob/main/exploit.py
+                    </a>
+                    </code></p>
+                    <img class="walkthrough-img" src="./img/Picture31.png" alt="running the exploit">
+                <p class="description">Fill out the information we gathered from the LFI and our generated PEM file</p>
+                <p class="description">Attempting to run the exploit</p>
+                <img class="walkthrough-img" src="./img/Picture32.png" alt="Attempting to run the exploit">
+                
+                <p class="description">And we get a shell!</p>
+                <img class="walkthrough-img" src="./img/Picture33.png" alt="Successfully got a shell">
+                
+                <p class="description">We can’t do much as www-data, but we can try to get linPEAS on here to enumerate the machine.</p>
+                <img class="walkthrough-img" src="./img/Picture34.png" alt="testing sudo permissions">
+                
+            
+                <img class="walkthrough-img" src="./img/Picture35.png" alt="curling linpeas onto the machine">
+                
+                <p class="description">Not too much going on here, but there’s some interesting files that have unknown SUID binaries. This stuck out to me.</p>
+                <img class="walkthrough-img" src="./img/Picture36.png" alt="the interesting files discovered by linpeas">
+                <p class="description">There’s a github that has a Firejail.py exploit, download this, and get it onto the target machine.</p>
+                <p class="walkthrough-copy"><button class="copy-btn" onclick="copyToClipboard(this)"><i class="fa-solid fa-copy"></i></button><code>
+                    <a href="
+                    https://gist.github.com/GugSaas/9fb3e59b3226e8073b3f8692859f8d25
+                    ">
+                    https://gist.github.com/GugSaas/9fb3e59b3226e8073b3f8692859f8d25
+                    </a>
+                    </code></p>
+                    <img class="walkthrough-img" src="./img/Picture37.png" alt="curling the firejail exploit from github">
+                    <p class="description">If you try to run it right away you’ll get no return. You need to first upgrade your shell to see the output of the program.</p>
+                    <img class="walkthrough-img" src="./img/Picture38.png" alt="nc listener">
+                    <p class="description">Once the exploit is running, connect to the machine with another Reverse shell with the same python code as before on a different port. </p>
+                    <img class="walkthrough-img" src="./img/Picture39.png" alt="running the previous exploit again on a different port">
+                    <p class="description">Now you can finish the exploit.</p>
+                    <p class="description">Use the command in the output and then type “su -”.</p>
+                    <p class="description">If you get no prompt, elevate your shell again, you’ll be root.</p>
+                    <img class="walkthrough-img" src="./img/Picture40.png" alt="nc listener">
+                    <p class="description">We have root access, but no user or root flags. This is also supposed to be a windows machine so we must have rooted the wrong machine. We probably need to go to DC.cerberus.local which we found in the /etc/hosts file earlier.</p>
+                    <p class="description">Run linPEAS again to see if we can find anything interesting as root.</p>
+                    <p class="description">Found a password</p>
+                    <img class="walkthrough-img" src="./img/Picture41.png" alt="running linpeas found a password">
+                    <p class="description">Never seen this before</p>
+                    <img class="walkthrough-img" src="./img/Picture42.png" alt="">
+                    <p class="description">Reading the files in /var/lib/sss/db</p>
+                    <img class="walkthrough-img" src="./img/Picture43.png" alt="Reading the files in /var/lib/sss/db">
+                    <p class="description">Looking closer we can see that it’s the same password that linPEAS found. Let’s try to decrypt it.
+                        </p>
+                        <img class="walkthrough-img" src="./img/Picture44.png" alt="the password found is highlighted">
+                    <p class="description">Hashcat says this is a sha512crypt.</p>
+                    <img class="walkthrough-img" src="./img/Picture45.png" alt="hashcat shows that it is a sha512crypt">
+                    <p class="description">Crack the password with rockyou.</p>
+                    <img class="walkthrough-img" src="./img/Picture46.png" alt="Using john to crack the password">
+                    <p class="description">Now we have valid credentials for our user, but no way to gain access to it. </p>
+                    <p class="description">Next, we have to get chisel onto the machine.</p>
+                    <img class="walkthrough-img" src="./img/Picture47.png" alt="locate chisel">
+                    <img class="walkthrough-img" src="./img/Picture48.png" alt="wget chisel">
+                    <p class="description">Run chisel so we can get Winrm through this machine to the windows DC which we found in the linPEAS output or in the /etc/hosts file. (DC.cerberus.local @ 172.16.22.1) I chose 5985 for the WinRM process port.</p>
+                    <img class="walkthrough-img" src="./img/Picture49.png" alt="run chisel">
+<p class="description">Finally we get in as Matthew and get our user flag. We can use evil WinRM and the credentials to get right in.</p>
+<img class="walkthrough-img" src="./img/Picture50.png" alt="Evil-WinRM">
+<img class="walkthrough-img" src="./img/Picture51.png" alt="Evil-WinRM and user flag">
+<p class="description">Next, let’s start enumerating this system. We can use WinPEAS to do that.</p>
+<p class="walkthrough-copy"><button class="copy-btn" onclick="copyToClipboard(this)"><i class="fa-solid fa-copy"></i></button><code>
+  <a href="
+  https://github.com/carlospolop/PEASS-ng/releases/tag/20230326
+  ">
+  https://github.com/carlospolop/PEASS-ng/releases/tag/20230326
+  </a>
+  </code></p>
+
+<img class="walkthrough-img" src="./img/Picture52.png" alt="Evil-WinRM">
+<p class="description">This seems to be one of the only programs installed that stuck out to me.</p>
+<img class="walkthrough-img" src="./img/Picture53.png" alt="Evil-WinRM">
+<p class="description">https://github.com/rapid7/metasploit-framework/pull/17556</p>
+<p class="description">There’s also a recent Metasploit module for it.</p>
+<p class="description">Reading this exploit that has a Metasploit module associated with it we need to gather some more information to run it. In the github link it says we need access to a GUI so we need to forward the connection from this machine back to our Kali. We will have to use chisel again to do this.</p>
+<img class="walkthrough-img" src="./img/Picture54.png" alt="Evil-WinRM">
+<p class="description">https://ap3x.github.io/posts/pivoting-with-chisel/</p>
+<p class="description">Follow the guide, set up a proxy from Matthew back to your Kali.</p>
+<p class="description">We bring a windows version of chisel onto the windows machine and forward to our Kali.</p>
+<img class="walkthrough-img" src="./img/Picture55.png" alt="Evil-WinRM">
+<p class="description">Our chisel server on kali will be waiting a response.</p>
+<img class="walkthrough-img" src="./img/Picture56.png" alt="chisel">
+<p class="description">We can see we got a connection back on port 1080.</p>
+<p class="description">Now we need to configure Proxychains to use this.</p>
+
+<p class="description">Nano /etc/proxychains4.conf and go to the bottom of the file.</p>
+<p class="description">Edit it to allow the port 1080.</p>
+<img class="walkthrough-img" src="./img/Picture57.png" alt="edit /etc/proxychains4">
+<p class="description">Nmap yourself via Proxychains to see if it worked → because you are using Proxychains it is actually going to Matthew.</p>
+<img class="walkthrough-img" src="./img/Picture58.png" alt="nmap via proxychains">
+<p class="description">As far as I know, I’m not running all these Microsoft tools on my local kali machine, so this must be the target we’ve scanned!</p>
+<img class="walkthrough-img" src="./img/Picture59.png" alt="nmap via proxychains">
+<p class="description">We can add the dc to our /etc/hosts just in case.</p>
+<img class="walkthrough-img" src="./img/Picture60.png" alt="/etc/hosts">
+<p class="description">You can use this chisel connection now over port 1080.</p>
+<p class="description">If you want to use your browser with this connection, use foxy proxy or any other proxy to forward the traffic. These settings will work in this example:</p>
+<img class="walkthrough-img" src="./img/Picture61.png" alt="Proxychains">
+<p class="description">Or socks proxy through burp suite.</p>
+<img class="walkthrough-img" src="./img/Picture62.png" alt="Burp Suite Socks Proxy">
+<p class="description">We can try going to some of these resources we found in our nmap scan. But the one page that stood out to me was this 404 not found.</p>
+<img class="walkthrough-img" src="./img/Picture63.png" alt="cerberus error 404 page">
+<p class="description">Looks like nothing, except wappalyzer has a hit, and this is not a normal error.</p>
+<img class="walkthrough-img" src="./img/Picture64.png" alt="wappalyzer">
+<p class="description">We can find out some more information about this and make our way to a new endpoint where we get access to the GUI.</p>
+<p class="walkthrough-copy"><button class="copy-btn" onclick="copyToClipboard(this)"><i class="fa-solid fa-copy"></i></button><code>
+  <a href="
+  https://www.hawk-eye.io/2022/07/sso-saml-tokens-attack/
+  ">
+  https://www.hawk-eye.io/2022/07/sso-saml-tokens-attack/
+  </a>
+  </code></p>
+
+<p class="description">This error we find can give us something very interesting.</p>
+<img class="walkthrough-img" src="./img/Picture65.png" alt="cerberus error page">
+<p class="description">Google MSIS7065 and go to the first result.</p>
+<p class="walkthrough-copy"><button class="copy-btn" onclick="copyToClipboard(this)"><i class="fa-solid fa-copy"></i></button><code>
+  <a href="
+  https://learn.microsoft.com/en-us/answers/questions/885380/error-details-msis7065-there-are-no-registered-pro
+  ">
+  https://learn.microsoft.com/en-us/answers/questions/885380/error-details-msis7065-there-are-no-registered-pro
+  </a>
+  </code></p>
+
+<p class="description">Follow the full path given in the article</p>
+<p class="description">/adfs/ls/IdpInitiatedsignon.aspx</p>
+<p class="description">If you navigate to this path, you can get a sign in page.</p>
+<img class="walkthrough-img" src="./img/Picture66.png" alt="cerberus sign in page">
+<p class="description">This is starting to seem like SAML login info, we need that for the Metasploit module, so let’s start capturing these requests with burp suite.</p>
+<p class="description">Log in as Matthew.</p>
+<img class="walkthrough-img" src="./img/Picture67.png" alt="cBurp Suite log in as Matthew">
+<p class="description">Send to repeater.</p>
+<p class="description">Keep sending requests to repeater until you get the one that gives you something for SAML raider.</p>
+
+<p class="description">This request gives us all the information we need.</p>
+
+<img class="walkthrough-img" src="./img/Picture68.png" alt="Burp suite">
+<p class="description">We have the 32-bit GUID, provided in the POST url.</p>
+<img class="walkthrough-img" src="./img/Picture80.png" alt="32-bit GUID">
+
+<p class="description">We can also use SAML Raider to extract the issuer URL.</p>
+<img class="walkthrough-img" src="./img/Picture70.png" alt="SAML Raider">
+<img class="walkthrough-img" src="./img/Picture71.png" alt="SAML Raider">
+
+<p class="description">This gives us all we need to run the Metasploit module.</p>
+<p class="description">Proxychains to start msfconsole.</p>
+<img class="walkthrough-img" src="./img/Picture72.png" alt="msfconsole">
+<p class="description">Find the module for CVE-2022-47966.</p>
+<img class="walkthrough-img" src="./img/Picture73.png" alt="module for CVE-2022-47966">
+<img class="walkthrough-img" src="./img/Picture74.png" alt="msf6 exploit">
+<img class="walkthrough-img" src="./img/Picture75.png" alt="msf6 exploit">
+<p class="description">It catches and we’re in!</p>
+<img class="walkthrough-img" src="./img/Picture76.png" alt="msf6 exploit">
+<p class="description">Finally, you get the root flag.</p>
+<img class="walkthrough-img" src="./img/Picture77.png" alt="cd into desktop">
+<img class="walkthrough-img" src="./img/Picture78.png" alt="cat the root flag">
+<p class="description">Success! Cerberus has been pwned 😎</p>
+<img class="walkthrough-img" src="./img/Picture79.png" alt="Artwork for completing the machine">
+
+ 
+        </div>        
+
+
+  
+</main>
+  <!------------------- Footer ------------------->
+  <footer class="footer center-text" >
+    <div class="center-text grid grid--3-cols">
+      
+        <div class="footer__navigation">
+          <ul class="footer__list">
+            <li class="footer__item"><a href="https://github.com/widgeonsway" class="footer__link"><i class="fab fa-github"></a></i></li>
+            <li class="footer__item"><a href="https://tryhackme.com/p/widgeon" class="footer__link"><iconify-icon icon="simple-icons:tryhackme"></a></iconify-icon></li>
+            <li class="footer__item"><a href="https://app.hackthebox.com/users/1201996" class="footer__link"><iconify-icon icon="simple-icons:hackthebox"></a></iconify-icon>
+            <li class="footer__item"><a href="https://www.linkedin.com/in/stormypleym/" class="footer__link"><i class="fa-brands fa-linkedin"></i>
+            <li class="footer__item"><a href="mailto:stormy.pleym@gmail.com" class="footer__link"><i class="fa-solid fa-envelope"></a></i></li>
+          </ul>
+        </div>
+      <div class="footer__logo-box ">
+       <span>Widgeon's Way</span>
+        <p class="center-text">Thank you</p>
+        <p class="center-text">Made by <img class="duck" src="/img/widgeonswaylogo.png" width="18" height="18"><a href="about.html"> Widgeon</a></p>
+      </div>
+      
+      <div class="copyright">
+        Copyright &copy; <span class="year">2027 </span> Widgeon's Way
+       
+      </div>
+      
+    </div>
+   
+    
+    </footer>
+
+    <script src="https://code.iconify.design/iconify-icon/1.0.5/iconify-icon.min.js"></script>
+    <script src="/scripts/script.js"></script>
+    <script>
+        function copyToClipboard(button) {
+            const text = button.parentElement.textContent.trim();
+            navigator.clipboard.writeText(text).then(() => {
+                button.innerHTML = '<i class="fa-solid fa-check"></i>'; 
+                setTimeout(() => button.innerHTML = '<i class="fa-solid fa-copy"></i>', 2000); 
+            }).catch(err => console.error('Error copying text:', err));
+        }
+        </script>
+ 
+  </body>
+
+    
+ 
+</body>
+</html>
+

@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Busqueda</title>
+  <link rel="icon" href="logo/widgeons-way-website-favicon-color.png">
+    <link rel="icon" href="logo/widgeons-way-website-favicon-color.png" sizes="">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css" integrity="sha384-DyZ88mC6Up2uqS4h/KRgHuoeGwBcD4Ng9SiP4dIRy0EXTlnuz47vAwmeGwVChigm" crossorigin="anonymous"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+
+    <link rel="icon" href="img/widgeonswaylogo.png" />
+   
+    <link href="/css/general.css" rel="stylesheet">  
+     <link href="/css/queries.css" rel="stylesheet"> 
+     <link href="/css/walkthroughs.css" rel="stylesheet"> 
+ 
+    
+    <script src="https://code.iconify.design/iconify-icon/1.0.5/iconify-icon.min.js"></script>
+</head>
+<body>
+    <header class="header ">
+      <a href="/">
+        <img class="logo" alt="Widgeon's Way Logo" src="/img/widgeonswaylogo.png"/>
+      </a>
+
+      <nav class="main-nav " id="menulinks">
+        <ul class="main-nav-list">
+          <li><a class="main-nav-link" href="/">Home</a></li>
+          <li><a class="main-nav-link" href="/toolkit/">Toolkit</a></li>
+          <li>
+            <a class="main-nav-link" href="/playbook/">Play Book</a>
+          </li>
+          <li><a class="main-nav-link" href="/walkthroughs/">Walk-Throughs</a></li>
+          <li><a class="main-nav-link" href="/widgeon-ctf/">Widgeon CTF</a></li>
+          <li><a class="main-nav-link nav-cta" href="/about/">About</a></li>
+        </ul>
+      </nav>
+      <button class="btn-mobile-nav">
+        <i class="icon-mobile-nav fa-solid fa-bars"></i>
+        <i class="icon-mobile-nav fa-solid fa-x"></i>
+        
+      
+      </button>
+    </header>
+        <main class="container"id="walkthrough">    
+            <div class="content">
+                <p class="walkthrough-date">April 9, 2023</p>
+                
+                        <h1 class="header-primary-walkthrough">Busqueda</h1>
+                     
+        
+                        <h3 class="header-tertiary-walkthrough center-text">Tools Needed: Burp Suite, Python and LinPEAS</h3>
+                       
+         
+            
+            <img class="walkthrough-img" id="small" src="./img/Besqueda.png" alt="Besqueda Cover Photo">
+       
+          
+                <h2 class="header-secondary-walkthrough">Step 1: Start off with an Nmap Scan</h2>       
+               
+             
+                <p class="walkthrough-copy"><button class="copy-btn" onclick="copyToClipboard(this)"><i class="fa-solid fa-copy"></i></button><code>nmap -sV -sC &lt;IP ADDRESS&gt; -oA &lt;FILE NAME&gt;</code></p>
+              
+
+<img class="walkthrough-img" src="./img/Picture1.png" alt="Nmap scan">
+
+<p class="description">Add to your /etc/hosts</p>
+<img class="walkthrough-img" src="./img/Picture2.png" alt="Nano /etc/hosts">
+
+<p class="description">Check out the web page, not a lot on here but there is something we can interact with.</p>
+<img class="walkthrough-img" src="./img/Picture3.png" alt="searcher.htb">
+
+<p class="description">We can see what the website is made with, and a quick google search will reveal that it’s vulnerable.</p>
+<img class="walkthrough-img" src="./img/Picture4.png" alt="searcher webpage footer">
+<img class="walkthrough-img" src="./img/Picture5.png" alt="google results for searcher 2.4.0 cve">
+
+<p class="description">Following this Snyk link, we can find the github and some other useful information.</p>
+<p class="walkthrough-copy"><button class="copy-btn" onclick="copyToClipboard(this)"><i class="fa-solid fa-copy"></i></button><code>
+    <a href="
+    https://security.snyk.io/package/pip/searchor
+    ">
+    https://security.snyk.io/package/pip/searchor
+    </a>
+    </code></p>
+<p class="walkthrough-copy"><button class="copy-btn" onclick="copyToClipboard(this)"><i class="fa-solid fa-copy"></i></button><code>
+    <a href="
+    https://security.snyk.io/vuln/SNYK-PYTHON-SEARCHOR-3166303
+    ">
+    https://security.snyk.io/vuln/SNYK-PYTHON-SEARCHOR-3166303
+    </a>
+    </code></p>
+   
+  
+<img class="walkthrough-img" src="./img/Picture6.png" alt="snyk vulnerability webpage">
+<p class="walkthrough-copy"><button class="copy-btn" onclick="copyToClipboard(this)"><i class="fa-solid fa-copy"></i></button><code>
+    <a href="
+    https://github.com/ArjunSharda/Searchor/commit/29d5b1f28d29d6a282a5e860d456fab2df24a16b
+    ">
+    https://github.com/ArjunSharda/Searchor/commit/29d5b1f28d29d6a282a5e860d456fab2df24a16b
+    </a>
+    </code></p>
+
+<img class="walkthrough-img" src="./img/Picture7.png" alt="Arjun Sharda github screenshot">
+
+<p class="description">We can see the commit differences here, and in older versions lines 32-34 are still there. The use of the eval() function is dangerous and can allow us to run code. We just need to figure out how.<br>https://github.com/ArjunSharda/Searchor/pull/130</p>
+
+<p class="description">First, we need to generate a request and capture it in burp suite.</p>
+<img class="walkthrough-img" src="./img/Picture8.png" alt="search options on searcher.htb">
+
+<p class="description">Make sure to look up your favorite anime 😊</p>
+<img class="walkthrough-img" src="./img/Picture9.png" alt="search options on searcher.htb">
+
+<p class="description">Send the request to your repeater so you can test out different payloads.</p>
+<img class="walkthrough-img" src="./img/Picture10.png" alt="Burp Suite send to repeater">
+
+<p class="description">You can see here a normal request will put the query at the end of the url.</p>
+<img class="walkthrough-img" src="./img/Picture11.png" alt="Burp Suite send to repeater response">
+
+<p class="description">But if you add some python code elements, you can change the output. Where a ‘+’a doesn’t give you q=a’+’a but instead gives you aa. And in python you can add two strings just like that.</p>
+<img class="walkthrough-img" src="./img/Picture12.png" alt="Burp Suite send to repeater response">
+
+<p class="description">Go to https://www.revshells.com/ to generate your payload.</p>
+<img class="walkthrough-img" src="./img/Picture13.png" alt="Reverse shell generator">
+
+<p class="description">Send your payload to the decoder.</p>
+<img class="walkthrough-img" src="./img/Picture14.png" alt="Burp Suite send payload to decoder">
+
+<p class="description">Add url encoding to the payload.</p>
+<img class="walkthrough-img" src="./img/Picture15.png" alt="Add url encoding to the payload.">
+
+<p class="description">Paste it in the repeater with an eval operation to execute it. This is what worked for me.</p>
+<img class="walkthrough-img" src="./img/Picture16.png" alt="Burp Suite repeater">
+<img class="walkthrough-img" src="./img/Picture17.png" alt="Burp Suite repeater">
+
+<p class="description">Set up your nc listener and then send the request with burp suite.</p>
+<img class="walkthrough-img" src="./img/Picture18.png" alt="setup nc listener">
+
+<p class="description">Once you send the request you should get your shell.</p>
+<img class="walkthrough-img" src="./img/Picture19.png" alt="Burp suite send request- get a shell">
+<img class="walkthrough-img" src="./img/Picture20.png" alt="nc listener got a shell">
+
+<p class="description">From here you can navigate to /home/svc to get the user.txt flag. I forgot</p>
+
+<p class="description">Next bring over linPEAS from your machine to get some more information. You don’t have write permissions in the directory you start in (/var/www/app) so move to /tmp or somewhere else you can write to.</p>
+<img class="walkthrough-img" src="./img/Picture21.png" alt="curl linpeas">
+<img class="walkthrough-img" src="./img/Picture22.png" alt="run linpeas">
+
+<p class="description">In the networking information we find a subdomain.</p>
+<img class="walkthrough-img" src="./img/Picture23.png" alt="networking information found in linpeas">
+
+<p class="description">Add this to your /etc/hosts</p>
+<img class="walkthrough-img" src="./img/Picture24.png" alt="use nano to add this new found information to /etc/hosts">
+
+<p class="description">This website doesn’t have a lot on it , but if we go to explore, we can get some usernames.</p>
+<img class="walkthrough-img" src="./img/Picture25.png" alt="gitea.searcher.htb">
+
+<p class="description">Cody, administrator</p>
+<img class="walkthrough-img" src="./img/Picture26.png" alt="cody and administrator are visible as users">
+
+<p class="description">Read every file that might be interesting.</p>
+<img class="walkthrough-img" src="./img/Picture27.png" alt="back to investigating the linpeas results">
+
+<p class="description">In my terminal I’m able to search through my history, so knowing the user “cody” I searched for that and quickly found a password. You can use this password to log onto the website but there is not a lot of useful information.</p>
+<img class="walkthrough-img" src="./img/Picture28.png" alt="history results show a password">
+
+<p class="description">jh1usoih2bkjaspwe92</p>
+<img class="walkthrough-img" src="./img/Picture29.png" alt="">
+
+<p class="description">Tried SSHing from the target to itself , only to find out that the cody password is also valid for svc.</p>
+<img class="walkthrough-img" src="./img/Picture30.png" alt="attempts to ssh in as the target.">
+
+<p class="description">This didn’t give us much, but now we’re able to run sudo -l.</p>
+<img class="walkthrough-img" src="./img/Picture31.png" alt="">
+
+<p class="description">We can see that we can run a certain script in /opt/scripts, but we can’t read it.</p>
+<img class="walkthrough-img" src="./img/Picture32.png" alt="sudo - l to see permissions">
+
+<p class="description">We can try to run it and get some information about the system.</p>
+<img class="walkthrough-img" src="./img/Picture33.png" alt="run the script but no permission to read it">
+
+<p class="description">Knowing the password for svc I decided to exit and SSH back in so I have a more stable shell (and so I can press up to repeat commands)</p>
+<img class="walkthrough-img" src="./img/Picture34.png" alt="ssh in for a stable shell">
+
+<p class="description">We also get a colorful prompt.</p>
+<img class="walkthrough-img" src="./img/Picture35.png" alt="green prompt from our new stable shell">
+
+<p class="description">Testing out the parts of the script, we can get some information about the docker.</p>
+<img class="walkthrough-img" src="./img/Picture36.png" alt="exploring the environment">
+
+<p class="description">Using the docker-inspect you can read the configuration of them by giving it the format {{‘.Config’}} and specifying the name of the docker (gitea or mysql_db)</p>
+<img class="walkthrough-img" src="./img/Picture37.png" alt="">
+
+<p class="description">We’re given another password in those prompts, so we can try to use it.</p>
+<img class="walkthrough-img" src="./img/Picture38.png" alt="">
+
+<p class="description">Unfortunately, this is not the root password.</p>
+<img class="walkthrough-img" src="./img/Picture39.png" alt="authentication failure">
+
+<p class="description">The only other place I remember seeing a user was on the gitea page and there was an administrator user.</p>
+<img class="walkthrough-img" src="./img/Picture40.png" alt="sign in as administrator on the webpage">
+
+<p class="description">We can log in with those credentials and we can find a private repo for scripts.</p>
+<img class="walkthrough-img" src="./img/Picture41.png" alt="admin user has a private repo">
+
+<p class="description">Now we have full read access to the scripts we don’t normally have access to.</p>
+<img class="walkthrough-img" src="./img/Picture42.png" alt="administrator/scripts on the webpage">
+<img class="walkthrough-img" src="./img/Picture43.png" alt="">
+
+<p class="description">We can find out more information about the full-checkup option so we can see why “something went wrong”.<br>This script uses a relative path, meaning we can create our own full-checkup.sh file and execute it with sudo privileges.</p>
+<img class="walkthrough-img" src="./img/Picture44.png" alt="">
+<img class="walkthrough-img" src="./img/Picture45.png" alt="">
+
+<p class="description">This box will delete your file very quickly, so I recommend copy pasting your whole set of commands to run all at once.</p>
+<img class="walkthrough-img" src="./img/Picture46.png" alt="">
+
+<p class="description">I did a simple chmod +s script with echo to achieve this.<br>Once you run the full-checkup it will look for “./full-checkup.sh”. This will first check the local directory you are running the command from, and because we have created our own, we can execute malicious commands as sudo.</p>
+<img class="walkthrough-img" src="./img/Picture47.png" alt="">
+
+<p class="description">Once you chmod +s on /bin/bash you can become root by typing /bin/bash -p</p>
+<img class="walkthrough-img" src="./img/Picture48.png" alt="user flag">
+
+<p class="description">Get your root flag!</p>
+<img class="walkthrough-img" src="./img/Picture49.png" alt="root flag">
+
+<p class="description">Success! Busqueda has been pwned 😎</p>
+<img class="walkthrough-img" src="./img/Picture50.png" alt="Artwork for the Besqueda machine ">
+
+            
+        </div>        
+
+           
+      
+            
+      
+    
+
+  
+</main>
+  <!------------------- Footer ------------------->
+  <footer class="footer center-text" >
+    <div class="center-text grid grid--3-cols">
+      
+        <div class="footer__navigation">
+          <ul class="footer__list">
+            <li class="footer__item"><a href="https://github.com/widgeonsway" class="footer__link"><i class="fab fa-github"></a></i></li>
+            <li class="footer__item"><a href="https://tryhackme.com/p/widgeon" class="footer__link"><iconify-icon icon="simple-icons:tryhackme"></a></iconify-icon></li>
+            <li class="footer__item"><a href="https://app.hackthebox.com/users/1201996" class="footer__link"><iconify-icon icon="simple-icons:hackthebox"></a></iconify-icon>
+            <li class="footer__item"><a href="https://www.linkedin.com/in/stormypleym/" class="footer__link"><i class="fa-brands fa-linkedin"></i>
+            <li class="footer__item"><a href="mailto:stormy.pleym@gmail.com" class="footer__link"><i class="fa-solid fa-envelope"></a></i></li>
+          </ul>
+        </div>
+      <div class="footer__logo-box ">
+       <span>Widgeon's Way</span>
+        <p class="center-text">Thank you</p>
+        <p class="center-text">Made by <img class="duck" src="/img/widgeonswaylogo.png" width="18" height="18"><a href="about.html"> Widgeon</a></p>
+      </div>
+      
+      <div class="copyright">
+        Copyright &copy; <span class="year">2027 </span> Widgeon's Way
+       
+      </div>
+      
+    </div>
+   
+    
+    </footer>
+
+    <script src="https://code.iconify.design/iconify-icon/1.0.5/iconify-icon.min.js"></script>
+    <script src="/scripts/script.js"></script>
+    <script>
+        function copyToClipboard(button) {
+            const text = button.parentElement.textContent.trim();
+            navigator.clipboard.writeText(text).then(() => {
+                button.innerHTML = '<i class="fa-solid fa-check"></i>'; 
+                setTimeout(() => button.innerHTML = '<i class="fa-solid fa-copy"></i>', 2000); 
+            }).catch(err => console.error('Error copying text:', err));
+        }
+        </script>
+ 
+  </body>
+
+    
+ 
+</body>
+</html>
+
