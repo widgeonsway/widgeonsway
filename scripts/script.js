@@ -22,4 +22,15 @@ btnNavEl.addEventListener("click", function () {
   }
 });
 
+//back to top button
+window.onscroll = function () {
+  const btn = document.getElementById("topBtn");
+  btn.style.display =
+    document.body.scrollTop > 400 || document.documentElement.scrollTop > 400
+      ? "block"
+      : "none";
+};
 
+function scrollToTop() {
+  window.scrollTo({ top: 0, behavior: "smooth" });
+}
