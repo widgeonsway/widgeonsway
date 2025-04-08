@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Flight</title>
+  <link rel="icon" href="logo/widgeons-way-website-favicon-color.png">
+    <link rel="icon" href="logo/widgeons-way-website-favicon-color.png" sizes="">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css" integrity="sha384-DyZ88mC6Up2uqS4h/KRgHuoeGwBcD4Ng9SiP4dIRy0EXTlnuz47vAwmeGwVChigm" crossorigin="anonymous"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+
+    <link rel="icon" href="img/widgeonswaylogo.png" />
+   
+    <link href="/css/general.css" rel="stylesheet">  
+     <link href="/css/queries.css" rel="stylesheet"> 
+     <link href="/css/walkthroughs.css" rel="stylesheet"> 
+ 
+    
+    <script src="https://code.iconify.design/iconify-icon/1.0.5/iconify-icon.min.js"></script>
+</head>
+<body>
+    <header class="header ">
+      <a href="/">
+        <img class="logo" alt="Widgeon's Way Logo" src="/img/widgeonswaylogo.png"/>
+      </a>
+
+      <nav class="main-nav " id="menulinks">
+        <ul class="main-nav-list">
+          <li><a class="main-nav-link" href="/">Home</a></li>
+          <li><a class="main-nav-link" href="/toolkit/">Toolkit</a></li>
+          <li>
+            <a class="main-nav-link" href="/playbook/">Play Book</a>
+          </li>
+          <li><a class="main-nav-link" href="/walkthroughs/">Walk-Throughs</a></li>
+          <li><a class="main-nav-link" href="/widgeon-ctf/">Widgeon CTF</a></li>
+          <li><a class="main-nav-link nav-cta" href="/about/">About</a></li>
+        </ul>
+      </nav>
+      <button class="btn-mobile-nav">
+        <i class="icon-mobile-nav fa-solid fa-bars"></i>
+        <i class="icon-mobile-nav fa-solid fa-x"></i>
+        
+      
+      </button>
+    </header>
+        <main class="container"id="walkthrough">    
+            <div class="content">
+                <p class="walkthrough-date">April 2, 2023</p>
+                
+                        <h1 class="header-primary-walkthrough">Flight</h1>
+                     
+        
+                        <h3 class="header-tertiary-walkthrough center-text">Tools Needed: Responder, Gobuster, SMBClient, Juicy Potato, RunasCs, Impacket and P0wny-Shell</h3>
+                       
+         
+            
+            <img class="walkthrough-img" id="small" src="./img/Flight.png" alt="Flight Cover Photo">
+       
+          
+                <h2 class="header-secondary-walkthrough">Step 1: Start off with an Nmap Scan</h2>       
+               
+             
+                <p class="walkthrough-copy"><button class="copy-btn" onclick="copyToClipboard(this)"><i class="fa-solid fa-copy"></i></button><code>nmap -sV -sC &lt;IP ADDRESS&gt; -oA &lt;FILE NAME&gt;</code></p>
+              
+                <p class="description">Start off with an nmap scan:</p>
+                <img class="walkthrough-img" src="./img/Picture1.png" alt="">
+                
+                <p class="description">Let’s check out this website while our scans go off. We’ll want to do a directory scan as well as a subdomain scan.</p>
+                <img class="walkthrough-img" src="./img/Picture2.png" alt="">
+                
+                <p class="description">We find school.flight.htb here as a subdomain</p>
+                <p class="walkthrough-copy"><button class="copy-btn" onclick="copyToClipboard(this)"><i class="fa-solid fa-copy"></i></button>gobuster vhost -u http://flight.htb/ -w /usr/share/wordlists/seclists/Discovery/DNS/subdomains-top1million-5000.txt --append-domain</p>
+
+                <img class="walkthrough-img" src="./img/Picture3.png" alt="">
+                
+                <p class="description">In our directory scan we don’t find a lot of useful things.</p>
+                <p class="walkthrough-copy"><button class="copy-btn" onclick="copyToClipboard(this)"><i class="fa-solid fa-copy"></i></button>gobuster dir -u http://flight.htb/ -w /usr/share/wordlists/dirbuster/directory-list-2.3-medium.txt</p>
+
+                <img class="walkthrough-img" src="./img/Picture4.png" alt="">
+                <img class="walkthrough-img" src="./img/Picture5.png" alt="">
+                <img class="walkthrough-img" src="./img/Picture6.png" alt="">
+                
+                <p class="description">Once we add school.flight.htb to our etc hosts file we can start scanning that as well.</p>
+                <img class="walkthrough-img" src="./img/Picture7.png" alt="">
+                
+                <p class="description">If you go to the “About Us” page we can see that there’s a potential LFI.</p>
+                <img class="walkthrough-img" src="./img/Picture8.png" alt="">
+                <img class="walkthrough-img" src="./img/Picture9.png" alt="">
+                
+                <p class="description">There was potential but it looks like there’s a block on this.</p>
+                <img class="walkthrough-img" src="./img/Picture10.png" alt="">
+                
+                <p class="description">However, if we open responder on our htb vpn interface.</p>
+                <img class="walkthrough-img" src="./img/Picture11.png" alt="">
+                
+                <p class="description">When we replace the LFI with “//&lt;IP&gt;/test” you’ll get a hit on responder for the user svc_apache</p>
+                <img class="walkthrough-img" src="./img/Picture12.png" alt="">
+                <img class="walkthrough-img" src="./img/Picture13.png" alt="">
+                
+                <p class="description">We can take the hash and throw it into hashcat to get some credentials.</p>
+                <img class="walkthrough-img" src="./img/Picture14.png" alt="">
+                
+                <p class="description">So we try to get into some SMB shares, without much luck.</p>
+                <img class="walkthrough-img" src="./img/Picture15.png" alt="">
+                
+                <p class="description">We can try using crackmapexec to get us a list of usernames here.</p>
+                <img class="walkthrough-img" src="./img/Picture16.png" alt="">
+                
+                <p class="description">Take out all the usernames from this list (O.Possum,svc_apache ...etc) and put it into a users.txt file
+                Now run crackmapexec with users.txt and the password, we can check if any other users have the same password.</p>
+                <img class="walkthrough-img" src="./img/Picture17.png" alt="">
+                
+                <p class="description">Using impacket we can find that Shared is writable.</p>
+                <img class="walkthrough-img" src="./img/Picture18.png" alt="">
+                
+                <p class="description">So, let’s go check what is up with shared.
+                <a href="https://book.hacktricks.xyz/windows-hardening/ntlm/places-to-steal-ntlm-creds">https://book.hacktricks.xyz/windows-hardening/ntlm/places-to-steal-ntlm-creds</a>
+                If you create your own “desktop.ini” according to this page, you’ll be able to grab another NTLM hash.</p>
+                <img class="walkthrough-img" src="./img/Picture19.png" alt="">
+                <img class="walkthrough-img" src="./img/Picture20.png" alt="">
+                <img class="walkthrough-img" src="./img/Picture21.png" alt="">
+                
+                <p class="description">Once connected to the smb share simply “put desktop.ini”
+                After a few moments you’ll get another NTLM hash in you responder.</p>
+                <img class="walkthrough-img" src="./img/Picture22.png" alt="">
+                <img class="walkthrough-img" src="./img/Picture23.png" alt="">
+                
+                <p class="description">Let’s crack that hash again</p>
+                <img class="walkthrough-img" src="./img/Picture24.png" alt="">
+                
+                <p class="description">Tikkycoll_431012284</p>
+                <img class="walkthrough-img" src="./img/Picture25.png" alt="">
+                
+                <p class="description">Let’s get in as c.bum and see what we can do.</p>
+                
+                <p class="description">c.bum can write to flight.htb, so we can start uploading content directly to the website. These files get deleted pretty quickly, so it was handy to keep open a terminal with the smbclient connected to upload files when they got deleted before I had a chance to pivot.</p>
+                <img class="walkthrough-img" src="./img/Picture26.png" alt="">
+                
+                <p class="description">I tried uploading the regular php reverse shell from pentestmonkey and it didn’t work, but I found this p0wnyshell on github and tried uploading it. After you put it from smbclient you can go to the browser to get an interactive webpage that gives you a shell.
+                Because the files here get deleted so often, if you upload them with smbclient, you can move them to a more “stable” directory. I created C:\tmp to work from so that I could easily access the tools I wanted to use.</p>
+                <img class="walkthrough-img" src="./img/Picture27.png" alt="">
+                
+                <p class="description"><a href="https://www.revshells.com/">https://www.revshells.com/</a>
+                PowerShell #2
+                You’ll need multiple terminals here, so send yourself a few connections.</p>
+                <img class="walkthrough-img" src="./img/Picture28.png" alt="">
+                <img class="walkthrough-img" src="./img/Picture29.png" alt="">
+                <img class="walkthrough-img" src="./img/Picture30.png" alt="">
+                <img class="walkthrough-img" src="./img/Picture31.png" alt="">
+                
+                <p class="description">We can get in the machine as svc_apache</p>
+                
+                <p class="description">Let’s check out some networking information.
+                This is the shell I used to forward their traffic back to my machine with Chisel.</p>
+                <img class="walkthrough-img" src="./img/Picture32.png" alt="">
+                
+                <p class="description">We can forward some of this traffic with Chisel.
+                The chisel server gets a connection and we’re able to browse the website.</p>
+                <img class="walkthrough-img" src="./img/Picture33.png" alt="">
+                
+                <p class="description">Navigate to 127.0.0.1:8000 to see the flight page. This is different than the flight.htb page we saw when we first connected.</p>
+                <img class="walkthrough-img" src="./img/Picture34.png" alt="">
+                
+                <p class="description">We can notice this page is made with asp .NET</p>
+                <img class="walkthrough-img" src="./img/Picture35.png" alt="">
+                
+                <p class="description">We can’t do too much more as svc_apache, so we need to connect in as c.bum for now.
+                Bring over RunasCs.exe <a href="https://github.com/antonioCoco/RunasCs">https://github.com/antonioCoco/RunasCs</a> to get a shell as c.bum.</p>
+                <img class="walkthrough-img" src="./img/Picture36.png" alt="">
+                <img class="walkthrough-img" src="./img/Picture37.png" alt="">
+                <img class="walkthrough-img" src="./img/Picture38.png" alt="">
+                
+                <p class="description">You can get your user flag now!</p>
+                <img class="walkthrough-img" src="./img/Picture39.png" alt="">
+                
+                <p class="description">Something that Svc_apache could not do was write to the c:\inetpub\development
+                As c.bum we’re able to upload cmd.aspx to that directory, which lets us run commands on ASP.NET (What we found the web page was built with Wappalyzer)</p>
+                <img class="walkthrough-img" src="./img/Picture40.png" alt="">
+                
+                <p class="description">Now if you visit the webpage at 127.0.0.1:8000/cmd.aspx we’re greeted with a command prompt. This file will be deleted quickly so you need to have a payload ready to go. I used the PowerShell #2 from revshells.com again here to get another reverse shell.</p>
+                <img class="walkthrough-img" src="./img/Picture41.png" alt="">
+                
+                <p class="description">Once you execute your shell should catch</p>
+                <img class="walkthrough-img" src="./img/Picture42.png" alt="">
+                <img class="walkthrough-img" src="./img/Picture43.png" alt="">
+                
+                <p class="description">After some enumeration of the machine and your privileges this seems like a valid target for <a href="https://book.hacktricks.xyz/windows-hardening/windows-local-privilege-escalation/juicypotato">JuicyPotato</a>
+                You can grab JuicyPotato here: <a href="https://github.com/antonioCoco/JuicyPotatoNG/releases/tag/v1.1">https://github.com/antonioCoco/JuicyPotatoNG/releases/tag/v1.1</a>
+                I uploaded it with smbclient and moved it to my C:\tmp directory. As well as nc.exe.</p>
+                
+                <p class="description">Go back to one of your shells as c.bum and grant these permissions to these two files.</p>
+                <img class="walkthrough-img" src="./img/Picture44.png" alt="">
+                
+                <p class="description">Now go back in as iis</p>
+                <img class="walkthrough-img" src="./img/Picture45.png" alt="">
+                
+                <p class="description">Now we have JuicyPotato in place as well as nc. This should return to us a reverse shell as root (NT authority\system on windows)</p>
+                <img class="walkthrough-img" src="./img/Picture46.png" alt="">
+                
+                <p class="description">And it works!</p>
+                <img class="walkthrough-img" src="./img/Picture47.png" alt="">
+                
+                <p class="description">Get the root flag</p>
+                <img class="walkthrough-img" src="./img/Picture48.png" alt="">
+                
+                <p class="description">Success! Flight has been pwned 😎</p>
+                <img class="walkthrough-img" src="./img/Picture49.png" alt="">
+                
+
+            
+        </div>        
+
+           
+      
+            
+      
+    
+
+  
+</main>
+  <!------------------- Footer ------------------->
+  <footer class="footer center-text" >
+    <div class="center-text grid grid--3-cols">
+      
+        <div class="footer__navigation">
+          <ul class="footer__list">
+            <li class="footer__item"><a href="https://github.com/widgeonsway" class="footer__link"><i class="fab fa-github"></a></i></li>
+            <li class="footer__item"><a href="https://tryhackme.com/p/widgeon" class="footer__link"><iconify-icon icon="simple-icons:tryhackme"></a></iconify-icon></li>
+            <li class="footer__item"><a href="https://app.hackthebox.com/users/1201996" class="footer__link"><iconify-icon icon="simple-icons:hackthebox"></a></iconify-icon>
+            <li class="footer__item"><a href="https://www.linkedin.com/in/stormypleym/" class="footer__link"><i class="fa-brands fa-linkedin"></i>
+            <li class="footer__item"><a href="mailto:stormy.pleym@gmail.com" class="footer__link"><i class="fa-solid fa-envelope"></a></i></li>
+          </ul>
+        </div>
+      <div class="footer__logo-box ">
+       <span>Widgeon's Way</span>
+        <p class="center-text">Thank you</p>
+        <p class="center-text">Made by <img class="duck" src="/img/widgeonswaylogo.png" width="18" height="18"><a href="about.html"> Widgeon</a></p>
+      </div>
+      
+      <div class="copyright">
+        Copyright &copy; <span class="year">2027 </span> Widgeon's Way
+       
+      </div>
+      
+    </div>
+   
+    
+    </footer>
+
+    <script src="https://code.iconify.design/iconify-icon/1.0.5/iconify-icon.min.js"></script>
+    <script src="/scripts/script.js"></script>
+    <script>
+        function copyToClipboard(button) {
+            const text = button.parentElement.textContent.trim();
+            navigator.clipboard.writeText(text).then(() => {
+                button.innerHTML = '<i class="fa-solid fa-check"></i>'; 
+                setTimeout(() => button.innerHTML = '<i class="fa-solid fa-copy"></i>', 2000); 
+            }).catch(err => console.error('Error copying text:', err));
+        }
+        </script>
+ 
+  </body>
+
+    
+ 
+</body>
+</html>
+
