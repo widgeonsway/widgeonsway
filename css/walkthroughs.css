@@ -281,7 +281,9 @@ strong {
 #topBtn:hover {
   background-color: var(--color-secondary);
 }
-
+#smaller-text {
+  font-size: 1.2rem;
+}
 /*********************/
 /* BELOW 944 px*/
 /*********************/
