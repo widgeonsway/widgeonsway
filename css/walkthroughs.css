@@ -146,10 +146,6 @@ body {
   transition: color 0.3s ease;
 }
 
-/* .walkthrough-copy a:hover {
-  color: var(--color-primary);
-} */
-
 .walkthrough-copy a::after {
   content: "";
   position: absolute;
