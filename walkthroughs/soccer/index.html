@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Soccer</title>
+  <link rel="icon" href="logo/widgeons-way-website-favicon-color.png">
+    <link rel="icon" href="logo/widgeons-way-website-favicon-color.png" sizes="">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css" integrity="sha384-DyZ88mC6Up2uqS4h/KRgHuoeGwBcD4Ng9SiP4dIRy0EXTlnuz47vAwmeGwVChigm" crossorigin="anonymous"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+
+    <link rel="icon" href="img/widgeonswaylogo.png" />
+   
+    <link href="/css/general.css" rel="stylesheet">  
+     <link href="/css/queries.css" rel="stylesheet"> 
+     <link href="/css/walkthroughs.css" rel="stylesheet"> 
+ 
+    
+    <script src="https://code.iconify.design/iconify-icon/1.0.5/iconify-icon.min.js"></script>
+</head>
+<body>
+    <header class="header ">
+      <a href="/">
+        <img class="logo" alt="Widgeon's Way Logo" src="/img/widgeonswaylogo.png"/>
+      </a>
+
+      <nav class="main-nav " id="menulinks">
+        <ul class="main-nav-list">
+          <li><a class="main-nav-link" href="/">Home</a></li>
+          <li><a class="main-nav-link" href="/toolkit/">Toolkit</a></li>
+          <li>
+            <a class="main-nav-link" href="/playbook/">Play Book</a>
+          </li>
+          <li><a class="main-nav-link" href="/walkthroughs/">Walk-Throughs</a></li>
+          <li><a class="main-nav-link" href="/widgeon-ctf/">Widgeon CTF</a></li>
+          <li><a class="main-nav-link nav-cta" href="/about/">About</a></li>
+        </ul>
+      </nav>
+      <button class="btn-mobile-nav">
+        <i class="icon-mobile-nav fa-solid fa-bars"></i>
+        <i class="icon-mobile-nav fa-solid fa-x"></i>
+        
+      
+      </button>
+    </header>
+        <main class="container"id="walkthrough">    
+            <div class="content">
+                <p class="walkthrough-date">February 3, 2023</p>
+                
+                        <h1 class="header-primary-walkthrough">Precious</h1>
+                     
+        
+                        <h3 class="header-tertiary-walkthrough center-text">Tools Needed: Nmap, Gobuster, Burp Suite, SQLmap, and Linpeas</h3>
+                       
+         
+            
+            <img class="walkthrough-img" id="small" src="./img/Soccer.png" alt="Soccer Cover Photo">
+       
+          
+                <h2 class="header-secondary-walkthrough">Step 1: Start off with an Nmap Scan</h2>       
+               
+                <p class="walkthrough-copy">
+                    <button class="copy-btn" onclick="copyToClipboard(this)">
+                      <i class="fa-solid fa-copy"></i>
+                    </button>
+                    <code>nmap -sV -sC &lt;IP ADDRESS&gt; -oA &lt;FILE NAME&gt;</code>
+                  </p>
+                  
+                  <img class="walkthrough-img" src="./img/Picture1.png" alt="Nmap scan">
+                  
+                  <p class="description">
+                    Add "soccer" to the <code>/etc/hosts</code> file. This is a very common step for Hack The Box and will save you some headaches later.
+                  </p>
+                  <img class="walkthrough-img" src="./img/Picture2.png" alt="">
+                  
+                  <p class="description">
+                    In the Nmap scan, we found that port 80 is open. This likely means there’s a website. When visiting <code>http://soccer.htb</code>, we see a landing page. Let’s click around for anything interesting while our Gobuster scans are running.
+                  </p>
+                  <img class="walkthrough-img" src="./img/Picture3.png" alt="">
+                  
+                  <p class="description">
+                    When a CTF challenge has a website, I immediately think “Gobuster and Burp Suite.”
+                    <br><br>
+                    Gobuster is great for enumerating a website. It allows us to scan for potential directories (e.g., <code>www.&lt;WEBSITE&gt;.com/dev</code>) and virtual hosts like <code>dev.&lt;WEBSITE&gt;.com</code>.
+                    <br>
+                    Here’s the command to scan for directories:
+                  </p>
+                  
+                  <p class="walkthrough-copy">
+                    <button class="copy-btn" onclick="copyToClipboard(this)">
+                      <i class="fa-solid fa-copy"></i>
+                    </button>
+                    <code>gobuster dir -u http://soccer.htb/ -w /usr/share/wordlists/dirbuster/directory-list-2.3-medium.txt</code>
+                  </p>
+                  
+                  <img class="walkthrough-img" src="./img/Picture4.png" alt="">
+                  
+                  <p class="description">This command scans for virtual hosts:</p>
+                  <p class="walkthrough-copy">
+                    <button class="copy-btn" onclick="copyToClipboard(this)">
+                      <i class="fa-solid fa-copy"></i>
+                    </button>
+                    <code>gobuster vhost -u http://soccer.htb/ -w /usr/share/seclists/Discovery/DNS/subdomains-top1million-5000.txt --append-domain</code>
+                  </p>
+                  
+                  <img class="walkthrough-img" src="./img/Picture5.png" alt="">
+                  
+                  <p class="description">No results with the vhost scan, but we find one directory with the first Gobuster scan!</p>
+                  <img class="walkthrough-img" src="./img/Picture6.png" alt="">
+                  
+                  <p class="description">Let’s head over to <code>http://soccer.htb/tiny/</code>.</p>
+                  <p class="description">We're greeted with a login page. Try common credentials like <code>admin/admin</code>, or check if the page references a known service.</p>
+                  <img class="walkthrough-img" src="./img/Picture7.png" alt="">
+                  
+                  <p class="description">
+                    The site uses Tiny File Manager. We can search online to find default credentials.
+                  </p>
+                  
+                  <p class="walkthrough-copy">
+                    <button class="copy-btn" onclick="copyToClipboard(this)">
+                      <i class="fa-solid fa-copy"></i>
+                    </button>
+                    <a href="https://github.com/prasathmani/tinyfilemanager" target="_blank">https://github.com/prasathmani/tinyfilemanager</a>
+                  </p>
+                  
+                  <p class="description">
+                    We found default credentials on their GitHub.
+                  </p>
+                  <img class="walkthrough-img" src="./img/Picture8.png" alt="">
+                  
+                  <p class="description">
+                    Both sets of default creds work!<br>
+                    Logging in with <code>user/12345</code>
+                  </p>
+                  <img class="walkthrough-img" src="./img/Picture9.png" alt="">
+                  
+                  <p class="description">Logging in with <code>admin/admin@123</code></p>
+                  <img class="walkthrough-img" src="./img/Picture10.png" alt="">
+                  
+                  <p class="description">
+                    Looks like we can upload and edit files with the admin account. Let’s upload a PHP reverse shell to gain access.<br>
+                    I used this one from Pentestmonkey:
+                    <a href="https://github.com/pentestmonkey/php-reverse-shell/blob/master/php-reverse-shell.php" target="_blank">
+                      php-reverse-shell.php
+                    </a>
+                    <br>
+                    Replace the IP with your HTB VPN IP and the port with one you want to listen on.
+                  </p>
+                  <img class="walkthrough-img" src="./img/Picture11.png" alt="">
+                  
+                  <p class="description">
+                    Start a Netcat listener and invoke the shell by opening the uploaded PHP file. The shell should catch.
+                  </p>
+                  <img class="walkthrough-img" src="./img/Picture12.png" alt="">
+                  
+                  <p class="description">We’re in!</p>
+                  <img class="walkthrough-img" src="./img/Picture13.png" alt="">
+                  
+                  <p class="description">Let’s upgrade our shell using Python:</p>
+                  <p class="walkthrough-copy">
+                    <button class="copy-btn" onclick="copyToClipboard(this)">
+                      <i class="fa-solid fa-copy"></i>
+                    </button>
+                    <code>python3 -c 'import pty; pty.spawn("/bin/bash")'</code>
+                  </p>
+                  
+                  <p class="description">This gives us a much better shell to work with.</p>
+                  <img class="walkthrough-img" src="./img/Picture14.png" alt="">
+                  
+                  <p class="description">
+                    Looking around, we find another host added to <code>/etc/hosts</code>.
+                  </p>
+                  <img class="walkthrough-img" src="./img/Picture15.png" alt="">
+                  
+                  <p class="description">
+                    This subdomain is also referenced in <code>/etc/nginx</code>. It wasn’t found by Gobuster (since it wasn't in our wordlist). Add it to your <code>/etc/hosts</code> and try visiting it.
+                  </p>
+                  <img class="walkthrough-img" src="./img/Picture16.png" alt="">
+                  
+                  <p class="description">
+                    This new page has a login screen with a sign-up option. Try signing up. HTB usually doesn’t require email verification—just remember your credentials!
+                  </p>
+                  
+                  <p class="description">
+                    The site doesn’t reveal much. One element can be interacted with, but it’s unclear what it does.<br>
+                    Open the page in Burp Suite and capture the request to inspect traffic.
+                  </p>
+                  <img class="walkthrough-img" src="./img/Picture17.png" alt="">
+                  <img class="walkthrough-img" src="./img/Picture18.png" alt="">
+                  <img class="walkthrough-img" src="./img/Picture19.png" alt="">
+                  
+                  <p class="description">
+                    We see a “Switching Protocols” response and a WebSocket payload. There’s a lot of WebSocket activity.
+                  </p>
+                  <img class="walkthrough-img" src="./img/Picture20.png" alt="">
+                  <img class="walkthrough-img" src="./img/Picture21.png" alt="">
+                  
+                  <p class="description">
+                    You can also right-click and view page source. In this case, we confirm it uses the <code>ws</code> protocol (WebSocket), not <code>wss</code> (WebSocket Secure), which is wild!
+                  </p>
+                  <img class="walkthrough-img" src="./img/Picture22.png" alt="">
+                  
+                  <p class="description">
+                    Let’s try an injection. I don’t know much about WebSocket injections, so I Googled and found:
+                  </p>
+                  
+                  <p class="walkthrough-copy">
+                    <button class="copy-btn" onclick="copyToClipboard(this)">
+                      <i class="fa-solid fa-copy"></i>
+                    </button>
+                    <a href="https://github.com/rayhan0x01/nodejs-websocket-sqli" target="_blank">WebSocket SQLi GitHub</a>
+                  </p>
+                  
+                  <p class="description">
+                    They’ve provided code to exploit a Docker container, and here’s the write-up:<br>
+                    <a href="https://rayhan0x01.github.io/ctf/2021/04/02/blind-sqli-over-websocket-automation.html" target="_blank">
+                      Blind SQLi Over WebSocket - Automation
+                    </a>
+                  </p>
+                  
+                  <p class="description">
+                    The payload uses JSON input—just like the soccer website’s request. We can modify it accordingly and use SQLmap for automated injection.
+                  </p>
+                  <img class="walkthrough-img" src="./img/Picture23.png" alt="">
+                  <img class="walkthrough-img" src="./img/Picture24.png" alt="">
+                  
+                  <p class="description">
+                    SQLmap is a great tool. Here’s a tutorial I followed to learn the syntax:
+                  </p>
+                  <p class="walkthrough-copy">
+                    <button class="copy-btn" onclick="copyToClipboard(this)">
+                      <i class="fa-solid fa-copy"></i>
+                    </button>
+                    <a href="https://www.geeksforgeeks.org/use-sqlmap-test-website-sql-injection-vulnerability/" target="_blank">
+                      SQLmap tutorial – GeeksforGeeks
+                    </a>
+                  </p>
+                  <img class="walkthrough-img" src="./img/Picture25.png" alt="">
+                  
+                  <p class="description">SQLmap found something extremely useful:</p>
+                  <img class="walkthrough-img" src="./img/Picture26.png" alt="">
+                  
+                  <p class="description">
+                    I was able to retrieve the names of databases one character at a time with a delay. This part requires time and patience.
+                  </p>
+                  <img class="walkthrough-img" src="./img/Picture27.png" alt="">
+                  
+
+            </div>
+  
+</main>
+  <!------------------- Footer ------------------->
+  <footer class="footer center-text" >
+    <div class="center-text grid grid--3-cols">
+      
+        <div class="footer__navigation">
+          <ul class="footer__list">
+            <li class="footer__item"><a href="https://github.com/widgeonsway" class="footer__link"><i class="fab fa-github"></a></i></li>
+            <li class="footer__item"><a href="https://tryhackme.com/p/widgeon" class="footer__link"><iconify-icon icon="simple-icons:tryhackme"></a></iconify-icon></li>
+            <li class="footer__item"><a href="https://app.hackthebox.com/users/1201996" class="footer__link"><iconify-icon icon="simple-icons:hackthebox"></a></iconify-icon>
+            <li class="footer__item"><a href="https://www.linkedin.com/in/stormypleym/" class="footer__link"><i class="fa-brands fa-linkedin"></i>
+            <li class="footer__item"><a href="mailto:stormy.pleym@gmail.com" class="footer__link"><i class="fa-solid fa-envelope"></a></i></li>
+          </ul>
+        </div>
+      <div class="footer__logo-box ">
+       <span>Widgeon's Way</span>
+        <p class="center-text">Thank you</p>
+        <p class="center-text">Made by <img class="duck" src="/img/widgeonswaylogo.png" width="18" height="18"><a href="about.html"> Widgeon</a></p>
+      </div>
+      
+      <div class="copyright">
+        Copyright &copy; <span class="year">2027 </span> Widgeon's Way
+       
+      </div>
+      
+    </div>
+   
+    <button onclick="scrollToTop()" id="topBtn" title="Go to top">
+      Back to top
+    </button>
+    </footer>
+
+    <script src="https://code.iconify.design/iconify-icon/1.0.5/iconify-icon.min.js"></script>
+    <script src="/scripts/script.js"></script>
+    <script>
+        function copyToClipboard(button) {
+            const text = button.parentElement.textContent.trim();
+            navigator.clipboard.writeText(text).then(() => {
+                button.innerHTML = '<i class="fa-solid fa-check"></i>'; 
+                setTimeout(() => button.innerHTML = '<i class="fa-solid fa-copy"></i>', 2000); 
+            }).catch(err => console.error('Error copying text:', err));
+        }
+        </script>
+ 
+  </body>
+
+    
+ 
+</body>
+</html>
+

