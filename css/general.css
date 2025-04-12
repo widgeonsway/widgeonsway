@@ -158,7 +158,6 @@ nav.main-nav ul li:last-child a::after {
 .container {
   max-width: 120rem;
   margin: 0 auto;
-
   /* padding: 0 3.2rem; */
 }
 .container-bg {
@@ -174,6 +173,14 @@ nav.main-nav ul li:last-child a::after {
   max-width: 2000px;
   margin: 0 auto;
 }
+
+.container-playbook {
+  margin: 0 auto;
+  max-width: 130rem;
+  display: flex;
+  margin-top: 2rem;
+}
+
 .grid {
   display: grid;
   row-gap: 9rem;
@@ -312,6 +319,9 @@ nav.main-nav ul li:last-child a::after {
   margin-bottom: 4.8rem !important;
 }
 
+.margin-sm {
+  margin: 1rem 0;
+}
 strong {
   font-weight: 500;
 }
@@ -322,6 +332,7 @@ strong {
 .footer {
   display: grid;
   background-color: #333131;
+
   color: var(--color-accent-white);
   padding: 2rem 0;
   font-size: 1.6rem;
