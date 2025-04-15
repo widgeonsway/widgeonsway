@@ -18,133 +18,12 @@
         <link href="/css/styles.css" rel="stylesheet">
         <link href="/css/general.css" rel="stylesheet">
         <link href="/css/queries.css" rel="stylesheet">
-   
-        <style>
-            /* * {
-              margin: 0;
-              padding: 0;
-              box-sizing: border-box;
-              font-family: "Arial", sans-serif;
-            } */
-            /* body {
-              background-color: #f8f9fa;
-              color: #333;
-              line-height: 1.6;
-            } */
-            header {
-              background: var(--color-primary);
-              color: white;
-              text-align: center;
-              padding: 40px 20px;
-              font-size: 2rem;
-              font-weight: bold;
-            }
-            main {
-              max-width: 900px;
-              margin: 40px auto;
-              padding: 20px;
-            }
-            .bio {
-              display: flex;
-              align-items: center;
-              background: white;
-              padding: 30px;
-              border-radius: 12px;
-              box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-            }
-            .bio img {
-              width: 160px;
-              height: 160px;
-              border-radius: 50%;
-              object-fit: cover;
-              margin-right: 25px;
-              border: 4px solid #222;
-            }
-            .bio div {
-              flex: 1;
-            }
-            .bio h2 {
-              font-size: 1.8rem;
-              margin-bottom: 10px;
-            }
-            .bio p {
-              font-size: 1rem;
-              color: #555;
-            }
-            button {
-              background: #222;
-              color: white;
-              padding: 12px 18px;
-              border: none;
-              cursor: pointer;
-              border-radius: 5px;
-              font-size: 1rem;
-              transition: background 0.3s;
-              margin-top: 15px;
-            }
-            button:hover {
-              background: #444;
-            }
-            .hidden {
-              display: none;
-            }
-            .skills {
-              background: white;
-              padding: 30px;
-              border-radius: 12px;
-              box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-              margin-top: 30px;
-            }
-            .skills h2 {
-              font-size: 1.6rem;
-              margin-bottom: 15px;
-            }
-            .skills ul {
-              list-style: none;
-              padding: 0;
-            }
-            .skills li {
-              background: #222;
-              color: white;
-              display: inline-block;
-              padding: 8px 12px;
-              margin: 5px;
-              border-radius: 5px;
-              font-size: 0.9rem;}
-
-              .project-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-  gap: 20px;
-}
-
-.project-grid figure {
-  text-align: center;
-}
-
-.project-grid img {
-  width: 100%;
-  height: auto;
-  border-radius: 8px;
-  transition: transform 0.3s ease;
-}
-
-.project-grid img:hover {
-  transform: scale(1.05);
-}
-
-figcaption {
-  margin-top: 10px;
-  font-size: 1rem;
-  color: #555;
-}
-
-            
-          </style>
+        <link href="/css/about.css" rel="stylesheet">
+ 
     </head>
     <body>
         <header class="header">
-          <a href="#">
+          <a href="/">
             <img class="logo" alt="Widgeon's Way Logo" src="/img/widgeonswaylogo.png"/>
           </a>
     
@@ -165,60 +44,91 @@ figcaption {
           
           </button>
         </header>
-  </head>
-  <body>
-    <header>About Me</header>
-    <main>
+
+<main>
+ 
+    <div class="container">
       <section class="bio">
-        <img src="profile.jpg" alt="Profile Picture" />
+        <img src="./img/profilepicture.png" alt="Profile Picture" />
         <div>
-          <h2>Hi, I'm Widgeon</h2>
-          <p>
-            I'm a web developer passionate about crafting elegant, responsive, and
-            high-performance websites. With a background in cybersecurity and UI/UX
-            design, I build digital experiences that are both secure and visually
-            stunning. I specialize in frontend and backend technologies, blending
-            creativity with technical expertise to deliver intuitive applications.
-            When I'm not coding, I explore new tech trends and refine my design
-            skills.
+          <h1 class="header-primary">Hi, I'm Widgeon</h1>
+          <p class="bio-about">
+            I'm a web developer who enjoys building clean, responsive, and high-performance websites. With a background in cybersecurity and UI/UX design, I focus on creating digital experiences that are both secure and easy to use. I work across the frontend and backend, blending design sense with technical know-how to build intuitive, user-friendly applications.</p><br>
+            <p class="bio-about">   When I'm not at my computer, you’ll find me outdoors—hiking with my dogs, snowboarding in the mountains, or off exploring new places.
           </p>
         </div>
       </section>
     
       <section class="projects">
-        <h2>My Work</h2>
-        <div class="project-grid">
+        <h2 class="header-secondary">My Work</h2>
+        <div class="project-grid center-text">
           <figure>
-            <a href="https://example.com/project1" target="_blank">
-              <img src="project1-thumbnail.jpg" alt="Project 1 Screenshot" />
+            <a href="https://widgeonsway.github.io/nexter/" target="_blank">
+              <img src="./img/nexter.png" alt="Project 1 Screenshot" />
             </a>
-            <figcaption>React E-commerce Website</figcaption>
+            <figcaption>Nexter: Realtor site made using SASS</figcaption>
           </figure>
     
           <figure>
-            <a href="https://example.com/project2" target="_blank">
-              <img src="project2-thumbnail.jpg" alt="Project 2 Screenshot" />
+            <a href="https://widgeonsway.github.io/Omnifood/" target="_blank">
+              <img src="./img/omnifood.png" alt="Project 2 Screenshot" />
             </a>
-            <figcaption>Webflow Portfolio Design</figcaption>
+            <figcaption>Omnifood: Food Subscription site</figcaption>
           </figure>
     
           <figure>
-            <a href="https://example.com/project3" target="_blank">
-              <img src="project3-thumbnail.jpg" alt="Project 3 Screenshot" />
+            <a href="https://github.com/widgeonsway/Pig-Game" target="_blank">
+              <img src="./img/piggame.png" alt="Project 3 Screenshot" />
             </a>
-            <figcaption>Kubernetes Deployment Dashboard</figcaption>
+            <figcaption>Pig Game: Dice game made with JavaScript</figcaption>
           </figure>
     
-          <figure>
-            <a href="https://example.com/project4" target="_blank">
-              <img src="project4-thumbnail.jpg" alt="Project 4 Screenshot" />
+      <figure>
+            <a href="https://widgeonsway.github.io/Natours/" target="_blank">
+              <img src="./img/natours.png" alt="Project 4 Screenshot" />
             </a>
-            <figcaption>Interactive JavaScript Game</figcaption>
+            <figcaption>Natours: Travel site made using SASS </figcaption>
           </figure>
+    
+ 
+
+     
+       
         </div>
       </section>
-    </main>
+    </div>
+
+</main>
+    <footer class="footer ">
+      <div class="center-text grid grid--3-cols">
+        
+          <div class="footer__navigation">
+            <ul class="footer__list">
+              <li class="footer__item"><a href="https://github.com/widgeonsway" class="footer__link"><i class="fab fa-github"></a></i></li>
+              <li class="footer__item"><a href="https://tryhackme.com/p/widgeon" class="footer__link"><iconify-icon icon="simple-icons:tryhackme"></a></iconify-icon></li>
+              <li class="footer__item"><a href="https://app.hackthebox.com/users/1201996" class="footer__link"><iconify-icon icon="simple-icons:hackthebox"></a></iconify-icon>
+              <li class="footer__item"><a href="https://www.linkedin.com/in/stormypleym/" class="footer__link"><i class="fa-brands fa-linkedin"></i>
+              <li class="footer__item"><a href="mailto:stormy.pleym@gmail.com" class="footer__link"><i class="fa-solid fa-envelope"></a></i></li>
+            </ul>
+          </div>
+        <div class="footer__logo-box ">
+         <span><strong>Widgeon's Way</strong></span>
+          <p class="center-text">Thank you</p>
+          <p class="center-text">Made by <img class="duck" src="/img/widgeonswaylogo.png" width="18" height="18"><a href="/about/"> Widgeon</a></p>
+        </div>
+        
+        <div class="copyright">
+          Copyright &copy; <span class="year">2027 </span> Widgeon's Way
+         
+        </div>
+        
+      </div>
+      
     
+      
+      </footer>
+    <script src="https://code.iconify.design/iconify-icon/1.0.5/iconify-icon.min.js"></script>
+    <script src="/scripts/script.js"></script>
  
   </body>
 </html>

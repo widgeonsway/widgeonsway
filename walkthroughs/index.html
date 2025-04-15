@@ -48,6 +48,7 @@
 <body>
   <section class="center-text " id="walkthrough-container">
     <h1 class="header-primary" id="walkthrough-heading">Hack the Box  Walkthroughs</h1>
+    <p class="notice">Active machines are password protected to keep it fair!</p>
     <div class="subheading ">
         <label>Difficulty:</label>
         <select id="difficultyFilter">
@@ -58,7 +59,7 @@
             <option value="insane">Insane</option>
         </select>
         
-        <label>Operating System:</label>
+        <label>OS:</label>
         <select id="statusFilter">
             <option value="all">All</option>
             <option value="linux">Linux</option>
@@ -66,18 +67,18 @@
         </select>
     </div>
     
-   <div class="walkthroughGrid grid-bg grid--7-cols">
+   <div class="container grid grid--4-cols">
   
   <div class="card" data-difficulty="easy" data-operating-system="linux"><a href="./titanic/">
     <img src="../img/htb/Titanic.png" alt="Titanic Cover Photo" width="100%">
     <h2>Titanic</h2>
-    <p>FUFF, Burp Suite, Gitea</p></a>
+    <p >FUFF, Burp Suite, Gitea</p></a>
   </div>
 
   <div class="card" data-difficulty="easy" data-operating-system="windows"><a href="./escapetwo/">
     <img src="../img/htb/EscapeTwo.png" alt="EscapeTwo Cover Photo" width="100%">
     <h2>EscapeTwo</h2>
-    <p></p></a>
+    <p>SMBMap, SQL, Evil-WinRM</p></a>
   </div>
 
   <div class="card" data-difficulty="easy" data-operating-system="windows"><a href="./cicada/">

@@ -131,7 +131,7 @@ body {
 
   align-items: center;
   margin-bottom: 1rem;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  box-shadow: var(--shadow-soft);
   transition: transform 0.3s ease, box-shadow 0.3s ease;
   font-weight: 500;
 }
@@ -179,7 +179,6 @@ strong {
   display: block;
   padding: 0.5rem;
   width: 100%;
-  /* margin: 0 auto; */
 }
 
 #small {
@@ -195,70 +194,6 @@ strong {
   display: flex;
   flex-wrap: wrap;
   gap: 20px;
-}
-
-/*********************/
-/* SIDEBAR ATTMPY*/
-/*********************/
-.aside-suggestions {
-  background-color: var(--color-accent-white);
-  border-radius: 8px;
-  box-shadow: 0 8px 24px var(--color-primary-dark);
-  padding: 2rem;
-  margin: 2rem;
-  width: 100%;
-}
-
-.aside-suggestions h2 {
-  font-size: 2.4rem;
-  color: var(--color-primary-dark);
-  font-weight: 600;
-  margin-bottom: 1.5rem;
-  text-align: center;
-  border-bottom: 3px solid var(--color-primary);
-  display: inline-block;
-  padding-bottom: 0.5rem;
-}
-
-.aside-suggestions ul {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-}
-
-.aside-suggestions li {
-  margin: 1.2rem 0;
-}
-
-.aside-suggestions a {
-  font-size: 1.8rem;
-  color: var(--color-secondary);
-  text-decoration: none;
-  position: relative;
-  transition: color 0.3s ease;
-  font-weight: 500;
-}
-
-.aside-suggestions a:hover {
-  color: var(--color-primary);
-}
-
-.aside-suggestions a::after {
-  content: "";
-  position: absolute;
-  width: 100%;
-  height: 3px;
-  background: var(--color-primary);
-  bottom: -5px;
-  left: 0;
-  transform: scaleX(0);
-  transform-origin: bottom right;
-  transition: transform 0.2s ease-out;
-}
-
-.aside-suggestions a:hover::after {
-  transform: scaleX(1);
-  transform-origin: bottom left;
 }
 
 #topBtn {
@@ -284,24 +219,9 @@ strong {
 #smaller-text {
   font-size: 1.2rem;
 }
-/*********************/
-/* BELOW 944 px*/
-/*********************/
-@media (max-width: 59em) {
-  .description {
-    margin: 0.5rem;
-  }
 
-  #small {
-    width: 100%;
-  }
-
+@media (max-width: 34em) {
   .content {
-    padding: 1.5rem;
-
-    margin: 1.5rem;
-  }
-  #small-text {
-    font-size: 1.5rem;
+    padding: 1rem;
   }
 }
